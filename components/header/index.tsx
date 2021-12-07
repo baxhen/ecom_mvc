@@ -1,11 +1,7 @@
 import React from "react";
-import Image from "next/image";
-import { useRouter } from "next/router";
-
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
-import useStyles from "./styles";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import Badge from "@mui/material/Badge";
@@ -13,11 +9,11 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { withTheme, WithTheme as WithThemeProps } from "@mui/styles";
 import { Theme } from "@mui/material";
 
+import useStyles from "./styles";
+
 interface Props extends WithThemeProps<Theme> {}
 
 const Header: React.FC<Props> = ({ theme }) => {
-  const history = useRouter();
-
   const { cls_header, cls_header__btn } = useStyles();
 
   return (
