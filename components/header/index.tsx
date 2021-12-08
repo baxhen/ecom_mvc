@@ -11,16 +11,25 @@ import { Theme } from "@mui/material";
 
 import useStyles from "./styles";
 
+// import { fadeIn } from "../../styles/keyframes";
+
 interface Props extends WithThemeProps<Theme> {}
 
 const Header: React.FC<Props> = ({ theme }) => {
-  const { cls_header, cls_header__btn } = useStyles();
+  const { cls_header, cls_header__btn, cls_header__logo } = useStyles();
+  // const fadeIn = keyframes({ from: { opacity: 0 }, to: { opacity: 1 } });
 
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="absolute" elevation={0}>
         <Toolbar className={cls_header}>
-          <Typography variant="h5">Brasil Shop</Typography>
+          <Typography
+            className={cls_header__logo}
+            variant="h5"
+            // sx={{ animation: fadeIn, animationDuration: "1s" }}
+          >
+            Brasil Shop
+          </Typography>
 
           <IconButton className={cls_header__btn}>
             <Badge badgeContent={7} color="primary">
