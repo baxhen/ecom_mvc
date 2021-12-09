@@ -1,9 +1,9 @@
 import { makeStyles } from "@mui/styles";
 import theme from "../../src/theme";
-import { fadeInFromBottom } from "../../styles/keyframes";
+import { fadeIn } from "../../styles/keyframes";
 
 const useStyles = makeStyles(() => ({
-  ...fadeInFromBottom,
+  ...fadeIn,
   cls_product: {
     display: "flex",
     flexWrap: "wrap",
@@ -12,12 +12,11 @@ const useStyles = makeStyles(() => ({
     },
     height: "auto",
     width: "55vw",
+    animation: `$fadeIn 1s`,
 
     [theme.breakpoints.down("md")]: {
       flexDirection: "column",
     },
-
-    animation: `$fadeInFromBottom 1s`,
   },
   cls_product__img: {
     height: "auto",

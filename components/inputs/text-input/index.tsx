@@ -7,7 +7,7 @@ export default function TextInput(props: any) {
   return (
     <Box component="form" noValidate autoComplete="off">
       <FormControl sx={{ width: props.width || "2ch", height: "100%" }}>
-        <OutlinedInput placeholder="" defaultValue={0} {...props} />
+        <OutlinedInput {...props} />
       </FormControl>
     </Box>
   );

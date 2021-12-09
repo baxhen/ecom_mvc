@@ -9,19 +9,21 @@ import Product from "../../components/product";
 
 const Offer: NextPage = () => {
   return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-      gap="1rem"
-      pt="1rem"
-    >
-      <Product />
-      <Product />
-      <Product />
-      <Product />
-      <Product />
-      <Product />
+    <Box display="flex" flexDirection="column" alignItems="center">
+      <Box
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        gap="1rem"
+        pt="1rem"
+      >
+        <Product />
+        <Product />
+        <Product />
+        <Product />
+        <Product />
+        <Product />
+      </Box>
     </Box>
   );
 };
