@@ -33,6 +33,9 @@ const useStyles = makeStyles(() => ({
   },
   cls_product__content__name: {
     fontWeight: 600,
+    [theme.breakpoints.down("sm")]: {
+      fontSize: "2rem",
+    },
   },
   cls_product__content__description: {
     marginBottom: "2rem",
