@@ -1,7 +1,9 @@
 import type { NextPage } from "next";
+import withHeaderSpacing from "../hoc/with-header-spacing";
+import theme from "../src/theme";
 
 const Home: NextPage = () => {
-  return <div></div>;
+  return <div>Welcome to Brasil Shop</div>;
 };
 
-export default Home;
+export default withHeaderSpacing(Home);
