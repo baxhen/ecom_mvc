@@ -17,6 +17,9 @@ const useStyles = makeStyles(() => ({
     [theme.breakpoints.down("md")]: {
       flexDirection: "column",
     },
+    [theme.breakpoints.down("sm")]: {
+      width: "90vw",
+    },
   },
   cls_product__img: {
     height: "auto",
