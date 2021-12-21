@@ -10,7 +10,6 @@ import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 
 import useStyles from "./styles";
-import TextInput from "../inputs/text-input";
 import IntInputWithControls from "../inputs/int-input-with-controls";
 import SelectInput from "../inputs/select-input";
 

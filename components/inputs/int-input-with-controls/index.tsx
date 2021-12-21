@@ -32,10 +32,10 @@ const IntInputWithControls = ({
         -
       </Button>
       <TextInput
-        width="5ch"
+        controlProps={{ sx: { width: "5ch", height: "100%" } }}
         value={quantity}
         onChange={(e: any) => setQuantity(+e.target.value)}
-        style={{ borderRadius: "0", fontSize: "15px", height: "100%" }}
+        sx={{ borderRadius: "0", fontSize: "15px", height: "100%" }}
       />
       <Button
         style={{ borderRadius: "0", minWidth: "2rem" }}

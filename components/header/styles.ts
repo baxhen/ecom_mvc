@@ -7,13 +7,10 @@ const useStyles = makeStyles(() => ({
   cls_header: {
     display: "flex",
     backgroundImage: "linear-gradient(to right, #BA8B02, #181818)",
-    "& button:nth-of-type(1)": {
+    "& div:nth-of-type(1)": {
       marginLeft: "auto",
     },
     "& > *": { animation: `$fadeInFromTop 1s` },
-  },
-  cls_header__btn: {
-    color: theme.palette.primary.light,
   },
   cls_header__logo: {
     cursor: "pointer",

@@ -3,18 +3,16 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import IconButton from "@mui/material/IconButton";
-import Badge from "@mui/material/Badge";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { withTheme, WithTheme as WithThemeProps } from "@mui/styles";
 import { Theme } from "@mui/material";
 
 import useStyles from "./styles";
+import Cart from "../cart";
 
 interface Props extends WithThemeProps<Theme> {}
 
 const Header: React.FC<Props> = ({ theme }) => {
-  const { cls_header, cls_header__btn, cls_header__logo } = useStyles();
+  const { cls_header, cls_header__logo } = useStyles();
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -23,12 +21,7 @@ const Header: React.FC<Props> = ({ theme }) => {
           <Typography className={cls_header__logo} variant="h5">
             Brasil Shop
           </Typography>
-
-          <IconButton className={cls_header__btn}>
-            <Badge badgeContent={7} color="primary">
-              <ShoppingCartIcon style={{ color: theme.palette.common.white }} />
-            </Badge>
-          </IconButton>
+          <Cart />
         </Toolbar>
       </AppBar>
     </Box>

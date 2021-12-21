@@ -1,14 +1,25 @@
 import React from "react";
-import FormControl from "@mui/material/FormControl";
-import OutlinedInput from "@mui/material/OutlinedInput";
+import FormControl, { FormControlTypeMap } from "@mui/material/FormControl";
+import OutlinedInput, { OutlinedInputProps } from "@mui/material/OutlinedInput";
 import Box from "@mui/material/Box";
+import { OverridableComponent } from "@mui/material/OverridableComponent";
+import { SxProps, Theme } from "@mui/material";
 
-export default function TextInput(props: any) {
+interface Sx {
+  sx?: SxProps<Theme> | undefined;
+}
+interface Props extends OutlinedInputProps, Sx {
+  controlProps?: OverridableComponent<FormControlTypeMap<{}, "div">> & any;
+}
+
+const TextInput: React.FC<Props> = ({ controlProps, ...props }) => {
   return (
     <Box component="form" noValidate autoComplete="off">
-      <FormControl sx={{ width: props.width || "2ch", height: "100%" }}>
+      <FormControl {...controlProps}>
         <OutlinedInput {...props} />
       </FormControl>
     </Box>
   );
-}
+};
+
+export default TextInput;
