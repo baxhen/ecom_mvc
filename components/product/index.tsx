@@ -12,6 +12,7 @@ import Box from "@mui/material/Box";
 import useStyles from "./styles";
 import IntInputWithControls from "../inputs/int-input-with-controls";
 import SelectInput from "../inputs/select-input";
+import { moneyParser } from "../../utils";
 
 interface Props extends WithThemeProps<Theme> {}
 
@@ -22,6 +23,7 @@ const Product: React.FC<Props> = ({ theme }) => {
     cls_product__content,
     cls_product__content__name,
     cls_product__content__description,
+    cls_product__content__price,
   } = useStyles();
 
   const downXXS = useMediaQuery(theme.breakpoints.down(500));
@@ -40,6 +42,9 @@ const Product: React.FC<Props> = ({ theme }) => {
       <CardContent className={cls_product__content}>
         <Typography variant="h3" className={cls_product__content__name}>
           Bolsa
+        </Typography>
+        <Typography variant="subtitle1" className={cls_product__content__price}>
+          {moneyParser.format(208.73)}
         </Typography>
         <Typography
           variant="subtitle2"

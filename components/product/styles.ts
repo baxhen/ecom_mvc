@@ -43,6 +43,11 @@ const useStyles = makeStyles(() => ({
   cls_product__content__description: {
     marginBottom: "2rem",
   },
+  cls_product__content__price: {
+    marginBottom: ".5rem",
+    fontWeight: 600,
+    color: theme.palette.primary.main,
+  },
 }));
 
 export default useStyles;
