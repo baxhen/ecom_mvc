@@ -1,4 +1,4 @@
-import { createTheme } from "@mui/material/styles";
+import { createTheme, lighten } from "@mui/material/styles";
 import { red } from "@mui/material/colors";
 
 // Create a theme instance.
@@ -7,7 +7,16 @@ const theme = createTheme({
     MuiCssBaseline: {
       styleOverrides: {
         body: {
-          overflow: "hidden",
+          overflow: "scroll",
+          "::-webkit-scrollbar": {
+            width: "7px",
+          },
+          "::-webkit-scrollbar-thumb": {
+            background: lighten("#181818", 0.08),
+          },
+          "::-webkit-scrollbar-thumb:hover": {
+            background: lighten("#181818", 0.16),
+          },
         },
       },
     },
