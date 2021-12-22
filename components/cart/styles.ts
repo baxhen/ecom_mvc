@@ -15,16 +15,6 @@ const useStyles = makeStyles(() => ({
     flexDirection: "column",
     gap: "0.5rem",
   },
-  cls_cart__popover__items: {
-    overflowY: "scroll",
-    // "&::-webkit-scrollbar": { display: "none" },
-  },
-  cls_cart__popover__summary: {
-    marginTop: "auto",
-    display: "flex",
-    flexDirection: "column",
-    gap: "0.5rem",
-  },
 }));
 
 export default useStyles;

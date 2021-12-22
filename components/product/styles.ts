@@ -11,13 +11,13 @@ const useStyles = makeStyles(() => ({
       flex: 1,
     },
     height: "auto",
-    width: "55vw",
+    width: "40vw",
     animation: `$fadeIn 1s`,
 
     [theme.breakpoints.down("md")]: {
       flexDirection: "column",
     },
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down(660)]: {
       width: "90vw",
     },
   },

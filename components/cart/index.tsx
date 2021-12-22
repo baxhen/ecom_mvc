@@ -1,24 +1,20 @@
 import React from "react";
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import Badge from "@mui/material/Badge";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Popover from "@mui/material/Popover";
 import { withTheme, WithTheme as WithThemeProps } from "@mui/styles";
-import { Button, Theme } from "@mui/material";
+import { Theme } from "@mui/material";
 
 import useStyles from "./styles";
+import CartSummary from "./cart-summary";
+import CartItems from "./cart-items";
 
 interface Props extends WithThemeProps<Theme> {}
 
 const Cart: React.FC<Props> = ({ theme }) => {
-  const {
-    cls_cart,
-    cls_cart__popover,
-    cls_cart__popover__items,
-    cls_cart__popover__summary,
-  } = useStyles();
+  const { cls_cart, cls_cart__popover } = useStyles();
 
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null
@@ -62,34 +58,8 @@ const Cart: React.FC<Props> = ({ theme }) => {
         }}
       >
         <div className={cls_cart__popover}>
-          <div className={cls_cart__popover__items}>
-            <Typography sx={{ p: 2 }}> Item 1 </Typography>
-            <Typography sx={{ p: 2 }}> Item 2 </Typography>
-            <Typography sx={{ p: 2 }}> Item 3 </Typography>
-            <Typography sx={{ p: 2 }}> Item 1 </Typography>
-            <Typography sx={{ p: 2 }}> Item 2 </Typography>
-            <Typography sx={{ p: 2 }}> Item 3 </Typography>
-            <Typography sx={{ p: 2 }}> Item 1 </Typography>
-            <Typography sx={{ p: 2 }}> Item 2 </Typography>
-            <Typography sx={{ p: 2 }}> Item 3 </Typography>
-            <Typography sx={{ p: 2 }}> Item 1 </Typography>
-            <Typography sx={{ p: 2 }}> Item 2 </Typography>
-            <Typography sx={{ p: 2 }}> Item 3 </Typography>
-          </div>
-          <div className={cls_cart__popover__summary}>
-            <Box display="flex" justifyContent="space-between">
-              <Typography fontWeight={600}>Subtotal:</Typography>
-              <Typography>R$ 500,00</Typography>
-            </Box>
-            <Box display="flex" justifyContent="space-between">
-              <Button variant="contained" style={{ borderRadius: "0" }}>
-                Carrinho
-              </Button>
-              <Button variant="contained" style={{ borderRadius: "0" }}>
-                Checkout
-              </Button>
-            </Box>
-          </div>
+          <CartItems />
+          <CartSummary />
         </div>
       </Popover>
     </Box>
