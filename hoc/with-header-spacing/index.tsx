@@ -1,4 +1,4 @@
-import theme from "../../src/theme";
+import theme from "../../styles/theme";
 
 const withHeaderSpacing = (Component: React.FC) => (props: any) => {
   return (

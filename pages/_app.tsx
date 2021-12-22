@@ -5,7 +5,7 @@ import { ThemeProvider } from "@mui/material";
 import { CssBaseline } from "@mui/material";
 
 import Header from "../components/header";
-import theme from "../src/theme";
+import theme from "../styles/theme";
 
 function MyApp({ Component, pageProps }: AppProps) {
   React.useEffect(() => {

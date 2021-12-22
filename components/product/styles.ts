@@ -1,5 +1,5 @@
 import { makeStyles } from "@mui/styles";
-import theme from "../../src/theme";
+import theme from "../../styles/theme";
 import { fadeIn } from "../../styles/keyframes";
 
 const useStyles = makeStyles(() => ({
