@@ -13,10 +13,13 @@ import useStyles from "./styles";
 import IntInputWithControls from "../inputs/int-input-with-controls";
 import SelectInput from "../inputs/select-input";
 import { moneyParser } from "../../utils";
+import { addCartProduct, ICartProduct, useAppDispatch } from "../../store";
 
-interface Props extends WithThemeProps<Theme> {}
+interface Props extends WithThemeProps<Theme>, Omit<ICartProduct, "quantity"> {}
 
-const Product: React.FC<Props> = ({ theme }) => {
+const Product: React.FC<Props> = ({ theme, ...product }) => {
+  const dispatch = useAppDispatch();
+
   const {
     cls_product,
     cls_product__img,
@@ -26,33 +29,33 @@ const Product: React.FC<Props> = ({ theme }) => {
     cls_product__content__price,
   } = useStyles();
 
+  const { name, img, description, sku, store, price } = product;
+
   const downXXS = useMediaQuery(theme.breakpoints.down(500));
 
-  const [quantity, setQuantity] = React.useState(0);
-  const [size, setSize] = React.useState<string | number>("");
-  const [color, setColor] = React.useState<string | number>("");
+  const [quantity, setQuantity] = React.useState(1);
+  const [size, setSize] = React.useState<number>(1);
+  const [color, setColor] = React.useState<number>(1);
+
+  const onBuyClick = () => {
+    dispatch(addCartProduct({ ...product, quantity, size, color }));
+  };
 
   return (
     <Card className={cls_product}>
-      <CardMedia
-        component="img"
-        className={cls_product__img}
-        image="https://www.portotheme.com/wordpress/porto/shop1/wp-content/uploads/sites/77/2017/11/product-23-600x600.jpg"
-      />
+      <CardMedia component="img" className={cls_product__img} image={img} />
       <CardContent className={cls_product__content}>
         <Typography variant="h3" className={cls_product__content__name}>
-          Bolsa
+          {name}
         </Typography>
         <Typography variant="subtitle1" className={cls_product__content__price}>
-          {moneyParser.format(208.73)}
+          {moneyParser.format(price)}
         </Typography>
         <Typography
           variant="subtitle2"
           className={cls_product__content__description}
         >
-          Pellentesque habitant morbi tristique senectus et netus et malesuada
-          fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae,
-          ultricies eget, tempor sit amet, ante.
+          {description}
         </Typography>
 
         <Box
@@ -103,21 +106,31 @@ const Product: React.FC<Props> = ({ theme }) => {
           <Button
             variant="contained"
             style={{ borderRadius: "0", height: "2.5rem", width: "100%" }}
+            onClick={onBuyClick}
           >
             Comprar
           </Button>
         </Box>
         <Box display="flex" gap="0.3rem">
           <Typography fontWeight={600}>SKU:</Typography>
-          <Typography>654111995-1-1-2</Typography>
+          <Typography>{sku}</Typography>
         </Box>
         <Box display="flex" gap="0.3rem">
           <Typography fontWeight={600}>Loja:</Typography>
-          <Typography>Renner</Typography>
+          <Typography>{store}</Typography>
         </Box>
       </CardContent>
     </Card>
   );
+};
+
+Product.defaultProps = {
+  img: "https://www.portotheme.com/wordpress/porto/shop1/wp-content/uploads/sites/77/2017/11/product-23-600x600.jpg",
+  sku: "654111995-1-1-2",
+  store: "Renner",
+  description:
+    "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.",
+  name: "Bolsa",
 };
 
 export default withTheme<Theme, typeof Product>(Product);

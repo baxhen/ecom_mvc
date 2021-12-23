@@ -11,7 +11,7 @@ import Cart from "../cart";
 
 interface Props extends WithThemeProps<Theme> {}
 
-const Header: React.FC<Props> = ({ theme }) => {
+const Header: React.FC<Props> = () => {
   const { cls_header, cls_header__logo } = useStyles();
 
   return (

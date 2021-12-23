@@ -6,6 +6,7 @@ import { CssBaseline } from "@mui/material";
 
 import Header from "../components/header";
 import theme from "../styles/theme";
+import { storeWrapper } from "../store";
 
 function MyApp({ Component, pageProps }: AppProps) {
   React.useEffect(() => {
@@ -30,4 +31,4 @@ function MyApp({ Component, pageProps }: AppProps) {
   );
 }
 
-export default MyApp;
+export default storeWrapper.withRedux(MyApp);

@@ -10,16 +10,31 @@ import { Button, Theme } from "@mui/material";
 
 import useStyles from "./styles";
 import { moneyParser } from "../../../../utils";
+import { deleteCartProduct, useAppDispatch } from "../../../../store";
 
 interface Props extends WithThemeProps<Theme> {
   name: string;
   quantity: number;
   price: number;
+  id: number;
   img?: string;
 }
 
-const CartItem: React.FC<Props> = ({ theme, name, quantity, price, img }) => {
+const CartItem: React.FC<Props> = ({
+  theme,
+  name,
+  quantity,
+  price,
+  img,
+  id,
+}) => {
+  const dispatch = useAppDispatch();
+
   const { cls_cart__item, cls_cart__item__content } = useStyles();
+
+  const onRemoveClick = () => {
+    dispatch(deleteCartProduct(id));
+  };
 
   return (
     <div className={cls_cart__item}>
@@ -29,7 +44,7 @@ const CartItem: React.FC<Props> = ({ theme, name, quantity, price, img }) => {
           <Typography sx={{ mt: "5px" }} fontWeight={600}>
             {name}
           </Typography>
-          <IconButton sx={{ marginLeft: "auto" }}>
+          <IconButton sx={{ marginLeft: "auto" }} onClick={onRemoveClick}>
             <HighlightOffIcon fontSize="small" />
           </IconButton>
         </Box>

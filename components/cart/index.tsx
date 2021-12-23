@@ -10,11 +10,18 @@ import { Theme } from "@mui/material";
 import useStyles from "./styles";
 import CartSummary from "./cart-summary";
 import CartItems from "./cart-items";
+import { cartProductCountSelector, useAppSelector } from "../../store";
 
 interface Props extends WithThemeProps<Theme> {}
 
 const Cart: React.FC<Props> = ({ theme }) => {
   const { cls_cart, cls_cart__popover } = useStyles();
+
+  /** Selectors */
+
+  const productsCount = useAppSelector(cartProductCountSelector);
+
+  /** */
 
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null
@@ -36,7 +43,7 @@ const Cart: React.FC<Props> = ({ theme }) => {
   return (
     <Box ref={containerRef} p="2px">
       <IconButton className={cls_cart} onClick={handleClick}>
-        <Badge badgeContent={7} color="primary">
+        <Badge showZero badgeContent={productsCount} color="primary">
           <ShoppingCartIcon style={{ color: theme.palette.common.white }} />
         </Badge>
       </IconButton>
