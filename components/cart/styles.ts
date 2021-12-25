@@ -9,7 +9,7 @@ const useStyles = makeStyles(() => ({
   },
   cls_cart__popover: {
     width: "320px",
-    height: "480px",
+    maxHeight: "480px",
     padding: "2rem",
     display: "flex",
     flexDirection: "column",

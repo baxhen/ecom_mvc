@@ -10,7 +10,11 @@ import { Theme } from "@mui/material";
 import useStyles from "./styles";
 import CartSummary from "./cart-summary";
 import CartItems from "./cart-items";
-import { cartProductCountSelector, useAppSelector } from "../../store";
+import {
+  cartProductCountSelector,
+  cartProductsSelector,
+  useAppSelector,
+} from "../../store";
 
 interface Props extends WithThemeProps<Theme> {}
 
@@ -20,6 +24,7 @@ const Cart: React.FC<Props> = ({ theme }) => {
   /** Selectors */
 
   const productsCount = useAppSelector(cartProductCountSelector);
+  const products = useAppSelector(cartProductsSelector);
 
   /** */
 
@@ -65,8 +70,13 @@ const Cart: React.FC<Props> = ({ theme }) => {
         }}
       >
         <div className={cls_cart__popover}>
-          <CartItems />
-          <CartSummary />
+          {(products.length && (
+            <>
+              <CartItems />
+              <CartSummary />
+            </>
+          )) ||
+            "Nenhum produto no carrinho"}
         </div>
       </Popover>
     </Box>

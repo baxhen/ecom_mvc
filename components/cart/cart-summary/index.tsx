@@ -1,4 +1,5 @@
 import React from "react";
+import { useRouter } from "next/router";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { withTheme, WithTheme as WithThemeProps } from "@mui/styles";
@@ -11,6 +12,7 @@ import { moneyParser } from "../../../utils";
 interface Props extends WithThemeProps<Theme> {}
 
 const CartSummary: React.FC<Props> = ({ theme }) => {
+  const router = useRouter();
   const { cls_cart__summary } = useStyles();
 
   /** Selectors */
@@ -26,10 +28,18 @@ const CartSummary: React.FC<Props> = ({ theme }) => {
         <Typography>{moneyParser.format(subtotal)}</Typography>
       </Box>
       <Box display="flex" justifyContent="space-between">
-        <Button variant="contained" style={{ borderRadius: "0" }}>
+        <Button
+          variant="contained"
+          style={{ borderRadius: "0" }}
+          onClick={() => router.push("/cart")}
+        >
           Carrinho
         </Button>
-        <Button variant="contained" style={{ borderRadius: "0" }}>
+        <Button
+          variant="contained"
+          style={{ borderRadius: "0" }}
+          onClick={() => router.push("/checkout")}
+        >
           Checkout
         </Button>
       </Box>

@@ -1,4 +1,5 @@
 import React from "react";
+import { useRouter } from "next/router";
 import { withTheme, WithTheme as WithThemeProps } from "@mui/styles";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
@@ -15,7 +16,9 @@ interface Props extends WithThemeProps<Theme> {
 }
 
 const ModalAddProduct: React.FC<Props> = ({ open, setOpen, productName }) => {
-  const { cls_modal, cls_modal__icon } = useStyles();
+  const router = useRouter();
+
+  const { cls_modal__icon } = useStyles();
 
   return (
     <Modal open={open} setOpen={setOpen}>
@@ -38,7 +41,11 @@ const ModalAddProduct: React.FC<Props> = ({ open, setOpen, productName }) => {
           {productName}
         </Typography>
         <Box display="flex" gap="1rem" mt="2rem">
-          <Button variant="contained" sx={{ borderRadius: 0 }}>
+          <Button
+            variant="contained"
+            sx={{ borderRadius: 0 }}
+            onClick={() => router.push("/checkout")}
+          >
             Checkout
           </Button>
           <Button
