@@ -31,8 +31,12 @@ const ModalAddProduct: React.FC<Props> = ({ open, setOpen, productName }) => {
             />
           </SvgIcon>
         </div>
-        <Typography variant="h4">Adicionado ao carrinho!</Typography>
-        <Typography variant="h5">{productName}</Typography>
+        <Typography variant="h4" textAlign="center">
+          Adicionado ao carrinho!
+        </Typography>
+        <Typography variant="h5" textAlign="center">
+          {productName}
+        </Typography>
         <Box display="flex" gap="1rem" mt="2rem">
           <Button variant="contained" sx={{ borderRadius: 0 }}>
             Checkout
