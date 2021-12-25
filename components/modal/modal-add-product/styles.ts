@@ -1,9 +1,9 @@
 import { makeStyles } from "@mui/styles";
-import { iconOffset } from "../../../styles/keyframes";
+import { checkIconOffset } from "../../../styles/keyframes";
 import theme from "../../../styles/theme";
 
 const useStyles = makeStyles(() => ({
-  ...iconOffset,
+  ...checkIconOffset,
   cls_modal: {},
   cls_modal__icon: {
     position: "relative",
@@ -18,7 +18,7 @@ const useStyles = makeStyles(() => ({
       stroke: theme.palette.primary.main,
       strokeDasharray: 270,
       strokeDashoffset: 0,
-      animation: `$iconOffset 1s linear`,
+      animation: `$checkIconOffset 1s linear`,
     },
   },
 }));
