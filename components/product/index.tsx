@@ -14,6 +14,7 @@ import IntInputWithControls from "../inputs/int-input-with-controls";
 import SelectInput from "../inputs/select-input";
 import { moneyParser } from "../../utils";
 import { addCartProduct, ICartProduct, useAppDispatch } from "../../store";
+import ModalAddProduct from "../modal/modal-add-product";
 
 interface Props extends WithThemeProps<Theme>, Omit<ICartProduct, "quantity"> {}
 
@@ -36,9 +37,14 @@ const Product: React.FC<Props> = ({ theme, ...product }) => {
   const [quantity, setQuantity] = React.useState(1);
   const [size, setSize] = React.useState<number>(1);
   const [color, setColor] = React.useState<number>(1);
+  const [open, setOpen] = React.useState(false);
 
   const onBuyClick = () => {
     dispatch(addCartProduct({ ...product, quantity, size, color }));
+    setOpen(true);
+    setQuantity(1);
+    setSize(1);
+    setColor(1);
   };
 
   return (
@@ -120,6 +126,11 @@ const Product: React.FC<Props> = ({ theme, ...product }) => {
           <Typography>{store}</Typography>
         </Box>
       </CardContent>
+      <ModalAddProduct
+        open={open}
+        setOpen={setOpen}
+        productName={product.name}
+      />
     </Card>
   );
 };
