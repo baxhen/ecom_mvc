@@ -1,12 +1,15 @@
 import { lighten } from "@mui/material";
 import { makeStyles } from "@mui/styles";
+import { fadeIn } from "../../styles/keyframes";
 import theme from "../../styles/theme";
 
 const useStyles = makeStyles(() => ({
+  ...fadeIn,
   cls_cart_total: {
     width: "100%",
     padding: "1rem",
     height: "20rem",
+    animation: `$fadeIn 1s`,
     background: lighten(theme.palette.primary.main, 0.95),
     [theme.breakpoints.up(768)]: {
       width: "90%",
