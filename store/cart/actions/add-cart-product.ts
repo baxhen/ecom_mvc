@@ -1,14 +1,14 @@
-import { cartTypes } from "../action-types";
+import { ActionTypes } from "../../action-types";
 import { ICartProduct } from "../types";
 
 export interface AddCartProductAction {
-  type: typeof cartTypes.addCartProduct;
+  type: typeof ActionTypes.addCartProduct;
   payload: ICartProduct;
 }
 
 export const addCartProduct = (
   payload: ICartProduct
 ): AddCartProductAction => ({
-  type: cartTypes.addCartProduct,
+  type: ActionTypes.addCartProduct,
   payload,
 });

@@ -1,6 +1,9 @@
 import { HYDRATE } from "next-redux-wrapper";
-import { cartTypes } from "./cart/action-types";
-import { AddCartProductAction } from "./cart";
+import {
+  AddCartProductAction,
+  DeleteCartProductAction,
+  EditCartProductQuantityAction,
+} from "./cart";
 import { AnyAction } from "redux";
 
 interface HydrateAction {
@@ -8,6 +11,16 @@ interface HydrateAction {
   payload: any;
 }
 
-export const ActionTypes = { hydrate: HYDRATE, ...cartTypes };
+export enum ActionTypes {
+  hydrate = "__NEXT_REDUX_WRAPPER_HYDRATE__",
+  addCartProduct = "addCartProduct",
+  deleteCartProduct = "deleteCartProduct",
+  editCartProductQuantity = "editCartProductQuantity",
+}
 
-export type Action = AddCartProductAction | HydrateAction | AnyAction;
+export type Action =
+  | DeleteCartProductAction
+  | AddCartProductAction
+  | EditCartProductQuantityAction
+  | AnyAction
+  | HydrateAction;

@@ -31,7 +31,9 @@ const CartSummary: React.FC<Props> = ({ theme }) => {
         <Button
           variant="contained"
           style={{ borderRadius: "0" }}
-          onClick={() => router.push("/cart")}
+          onClick={() => {
+            router.push("/cart");
+          }}
         >
           Carrinho
         </Button>

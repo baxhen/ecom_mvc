@@ -1,4 +1,5 @@
-import produce from "immer";
+import produce, { current } from "immer";
+import undoable from "redux-undo";
 import { Action, ActionTypes } from "../action-types";
 import { ICartState } from "./types";
 
@@ -6,8 +7,8 @@ const initialState: ICartState = {
   products: [],
 };
 
-export const CartReducer = produce(
-  (draft: ICartState, action: Action): ICartState => {
+export const CartReducer = undoable(
+  produce((draft: ICartState, action: Action): ICartState => {
     switch (action.type) {
       case ActionTypes.hydrate: {
         return { ...draft, ...action.payload.cart };
@@ -34,10 +35,21 @@ export const CartReducer = produce(
 
         return draft;
       }
+      case ActionTypes.editCartProductQuantity: {
+        const index = draft.products.findIndex(
+          (p) => p.id === action.payload.id
+        );
+        console.log({ index });
+        if (index !== -1) {
+          console.log({ product: current(draft.products[index]) });
+          draft.products[index].quantity = action.payload.quantity;
+        }
+
+        return draft;
+      }
 
       default:
         return draft;
     }
-  },
-  initialState
+  }, initialState)
 );
