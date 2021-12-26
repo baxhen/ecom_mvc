@@ -9,6 +9,7 @@ interface Props {
   quantity: number;
   setQuantity: React.Dispatch<React.SetStateAction<number>>;
   height?: string;
+  maxHeight?: string;
   width?: string;
 }
 
@@ -16,10 +17,16 @@ const IntInputWithControls = ({
   quantity,
   setQuantity,
   height,
+  maxHeight,
   width,
 }: Props) => {
   return (
-    <Box display="flex" height={height || "100%"} width={width || "112px"}>
+    <Box
+      display="flex"
+      height={height || "100%"}
+      width={width || "112px"}
+      maxHeight={maxHeight}
+    >
       <Button
         style={{ borderRadius: "0", minWidth: "2rem" }}
         variant="contained"

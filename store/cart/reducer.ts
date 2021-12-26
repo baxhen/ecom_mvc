@@ -39,9 +39,7 @@ export const CartReducer = undoable(
         const index = draft.products.findIndex(
           (p) => p.id === action.payload.id
         );
-        console.log({ index });
         if (index !== -1) {
-          console.log({ product: current(draft.products[index]) });
           draft.products[index].quantity = action.payload.quantity;
         }
 

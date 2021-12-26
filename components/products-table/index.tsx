@@ -25,22 +25,21 @@ import {
   useAppSelector,
 } from "../../store";
 import ProductTableItem from "./product-table-item";
+import ProductTableHead from "./product-table-head";
 
 interface Props extends WithThemeProps<Theme> {}
 
 const ProductsTable: React.FC<Props> = ({ theme }) => {
   const dispatch = useAppDispatch();
 
-  const { cls_products } = useStyles();
+  const { cls_products, cls_products_items_container } = useStyles();
 
   /** Selectors */
   const canUndo = useAppSelector(cartCanUndoSelector);
   const products = useAppSelector(cartProductsSelector);
   /** */
 
-  // const { name, img, description, sku, store, price } = product;
-
-  const downXXS = useMediaQuery(theme.breakpoints.up(768));
+  const up768 = useMediaQuery(theme.breakpoints.up(768));
 
   const onUndoClick = (event: React.SyntheticEvent) => {
     event.preventDefault();
@@ -62,10 +61,12 @@ const ProductsTable: React.FC<Props> = ({ theme }) => {
           </Box>
         </Box>
       )}
-
-      {products.map((product) => {
-        return <ProductTableItem {...product} key={product.id} />;
-      })}
+      {up768 && <ProductTableHead />}
+      <div className={cls_products_items_container}>
+        {products.map((product) => {
+          return <ProductTableItem {...product} key={product.id} />;
+        })}
+      </div>
     </div>
   );
 };

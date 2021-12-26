@@ -34,11 +34,13 @@ const ProductTableItem: React.FC<Props> = ({ theme, ...product }) => {
     cls_product_item,
     cls_product_item__section,
     cls_product_item__delete_btn,
+    cls_product_item__section_empty,
   } = useStyles();
 
   const { name, img, description, sku, store, price, quantity, id } = product;
 
-  // const downXXS = useMediaQuery(theme.breakpoints.down(500));
+  const up768 = useMediaQuery(theme.breakpoints.up(768));
+
   const setQuantity: any = (newQuantity: number) => {
     dispatch(editCartProductQuantity({ id, quantity: newQuantity }));
     dispatch(ActionCreators.clearHistory());
@@ -50,7 +52,7 @@ const ProductTableItem: React.FC<Props> = ({ theme, ...product }) => {
 
   return (
     <div className={cls_product_item}>
-      <div className={cls_product_item__section}>
+      <div className={cls_product_item__section_empty}>
         <IconButton
           className={cls_product_item__delete_btn}
           onClick={onRemoveProduct}
@@ -58,31 +60,49 @@ const ProductTableItem: React.FC<Props> = ({ theme, ...product }) => {
           <ClearIcon sx={{ color: "white" }} />
         </IconButton>
       </div>
+      {up768 && (
+        <div className={cls_product_item__section_empty}>
+          <img height="100%" src={img} alt="item-carrinho" />
+        </div>
+      )}
       <div className={cls_product_item__section}>
-        <Typography variant="h6" fontWeight={600} fontSize="1rem">
-          Produto:
-        </Typography>
+        {!up768 && (
+          <Typography variant="h6" fontWeight={600} fontSize="1rem">
+            Produto:
+          </Typography>
+        )}
 
         <Typography variant="body1">{name}</Typography>
       </div>
       <div className={cls_product_item__section}>
-        <Typography variant="h6" fontWeight={600} fontSize="1rem">
-          Preço:
-        </Typography>
+        {!up768 && (
+          <Typography variant="h6" fontWeight={600} fontSize="1rem">
+            Preço:
+          </Typography>
+        )}
 
         <Typography variant="body1">{moneyParser.format(price)}</Typography>
       </div>
       <div className={cls_product_item__section}>
-        <Typography variant="h6" fontWeight={600} fontSize="1rem">
-          Quantidade:
-        </Typography>
+        {!up768 && (
+          <Typography variant="h6" fontWeight={600} fontSize="1rem">
+            Quantidade:
+          </Typography>
+        )}
 
-        <IntInputWithControls quantity={quantity} setQuantity={setQuantity} />
+        <IntInputWithControls
+          quantity={quantity}
+          setQuantity={setQuantity}
+          width="5c"
+          maxHeight="2.5rem"
+        />
       </div>
       <div className={cls_product_item__section}>
-        <Typography variant="h6" fontWeight={600} fontSize="1rem">
-          Subtotal:
-        </Typography>
+        {!up768 && (
+          <Typography variant="h6" fontWeight={600} fontSize="1rem">
+            Subtotal:
+          </Typography>
+        )}
 
         <Typography variant="body1">
           {moneyParser.format(quantity * price)}
