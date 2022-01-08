@@ -15,7 +15,11 @@ import {
   useAppSelector,
 } from "../../store";
 import PageTitle from "../../components/page-title";
-import { getShippingPrice, useGetShippingPricePerProduct } from "../../hooks";
+import {
+  getShippingPrice,
+  ShippingInfoAPI,
+  useGetShippingPricePerProduct,
+} from "../../hooks";
 import { connect } from "react-redux";
 import { client } from "../../api";
 import { IPaginatedProduct } from "../../types";
@@ -25,18 +29,20 @@ export interface Shipping {
   weight: number;
   price: number;
 }
-interface Props {
-  shipping?: Shipping[];
-}
+interface Props {}
 
-const Cart: NextPage<Props> = ({ shipping }) => {
+const Cart: NextPage<Props> = () => {
   const dispatch = useAppDispatch();
 
   const hasProducts = useAppSelector(cartHasProductsSelector);
+  const products = useAppSelector(cartProductsSelector);
+
+  const shippingQueries = useGetShippingPricePerProduct({ products });
 
   React.useEffect(() => {
     dispatch(ActionCreators.clearHistory());
   }, []);
+
   return (
     <Box
       display="flex"
@@ -48,36 +54,46 @@ const Cart: NextPage<Props> = ({ shipping }) => {
       <PageTitle title="Carrinho" />
 
       <ProductsTable />
-      {hasProducts && <CartTotal shipping={shipping} />}
+      {hasProducts && (
+        <CartTotal
+          shipping={shippingQueries
+            .map((q): ShippingInfoAPI => {
+              if (q?.data) return q?.data;
+
+              return { id: 0, price: 0, weight: 0 };
+            })
+            .filter((item) => item?.id)}
+        />
+      )}
     </Box>
   );
 };
 
 const _Cart: NextPage<Props> = withHeaderSpacing(Cart);
 
-_Cart.getInitialProps = async (ctx) => {
-  try {
-    const response = await client.get<IPaginatedProduct>("/products/1", {
-      params: { pageNumber: 0, pageSize: 25 },
-    });
+// _Cart.getInitialProps = async (ctx) => {
+//   try {
+//     const response = await client.get<IPaginatedProduct>("/products/1", {
+//       params: { pageNumber: 0, pageSize: 25 },
+//     });
 
-    const productsIdWithWeight = response.data.data.data.map((p) => ({
-      id: p.id,
-      weight: p.weight,
-    }));
+//     const productsIdWithWeight = response.data.data.data.map((p) => ({
+//       id: p.id,
+//       weight: p.weight,
+//     }));
 
-    const shipping = await Promise.all(
-      productsIdWithWeight.map(async (p) => {
-        const data = await getShippingPrice(p);
+//     const shipping = await Promise.all(
+//       productsIdWithWeight.map(async (p) => {
+//         const data = await getShippingPrice(p);
 
-        return { ...p, price: data.price };
-      })
-    );
+//         return { ...p, price: data.price };
+//       })
+//     );
 
-    return { shipping };
-  } catch (error) {
-    return { shipping: [] };
-  }
-};
+//     return { shipping };
+//   } catch (error) {
+//     return { shipping: [] };
+//   }
+// };
 
 export default _Cart;
