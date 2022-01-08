@@ -13,6 +13,12 @@ const theme = createTheme({
         },
       },
     },
+    MuiTextField: {
+      styleOverrides: {
+        root: { width: "100%" },
+      },
+    },
+    MuiButton: { styleOverrides: { root: { borderRadius: 0 } } },
   },
   palette: {
     primary: {

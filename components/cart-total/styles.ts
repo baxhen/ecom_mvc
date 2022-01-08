@@ -39,7 +39,7 @@ const useStyles = makeStyles(() => ({
   cls_cart_total__action: {
     display: "flex",
     alignItems: "center",
-    justifyContent: "start",
+    justifyContent: "end",
     marginTop: "2rem",
   },
 }));

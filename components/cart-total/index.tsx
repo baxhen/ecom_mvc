@@ -76,7 +76,6 @@ const CartTotal: React.FC<Props> = ({ theme, shipping }) => {
       <div className={cls_cart_total__action}>
         <Button
           variant="contained"
-          style={{ borderRadius: 0 }}
           endIcon={<ArrowForwardIcon />}
           onClick={() => {
             router.push("/checkout");

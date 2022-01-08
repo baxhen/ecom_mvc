@@ -44,9 +44,9 @@ const ModalAddProduct: React.FC<Props> = ({ open, setOpen, productName }) => {
           <Button
             variant="contained"
             sx={{ borderRadius: 0 }}
-            onClick={() => router.push("/checkout")}
+            onClick={() => router.push("/cart")}
           >
-            Checkout
+            Carrinho
           </Button>
           <Button
             variant="contained"
