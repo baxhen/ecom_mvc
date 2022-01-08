@@ -11,9 +11,9 @@ export default function SelectInput(props: any) {
         {props.label}
       </InputLabel>
       <Select {...props}>
-        <MenuItem value="">
+        {/* <MenuItem value="">
           <em>Nenhum</em>
-        </MenuItem>
+        </MenuItem> */}
         {props?.options?.map((option: any, i: number) => (
           <MenuItem key={`${option.value}-${i}`} value={option.value}>
             {option.label}

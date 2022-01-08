@@ -41,7 +41,7 @@ const CartItem: React.FC<Props> = ({
       <img height="100%" src={img} alt="item-carrinho" />
       <div className={cls_cart__item__content}>
         <Box display="flex">
-          <Typography sx={{ mt: "5px" }} fontWeight={600}>
+          <Typography sx={{ mt: "5px" }} noWrap fontWeight={600}>
             {name}
           </Typography>
           <IconButton sx={{ marginLeft: "auto" }} onClick={onRemoveClick}>

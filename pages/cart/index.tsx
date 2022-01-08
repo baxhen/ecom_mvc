@@ -8,12 +8,14 @@ import Typography from "@mui/material/Typography";
 import withHeaderSpacing from "../../hoc/with-header-spacing";
 import ProductsTable from "../../components/products-table";
 import CartTotal from "../../components/cart-total";
-import { useAppDispatch } from "../../store";
+import { useAppDispatch, useAppSelector } from "../../store";
 import theme from "../../styles/theme";
 import PageTitle from "../../components/page-title";
 
 const Cart: NextPage = () => {
   const dispatch = useAppDispatch();
+
+  // const cartProductsId = useAppSelector()
 
   React.useEffect(() => {
     dispatch(ActionCreators.clearHistory());

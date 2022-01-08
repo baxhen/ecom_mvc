@@ -12,7 +12,7 @@ const useStyles = makeStyles(() => ({
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
-    width: "100%",
+    width: "80%",
   },
 }));
 
