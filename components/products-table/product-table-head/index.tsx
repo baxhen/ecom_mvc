@@ -1,29 +1,11 @@
 import React from "react";
 import { withTheme, WithTheme as WithThemeProps } from "@mui/styles";
-import { Theme, useMediaQuery } from "@mui/material";
-import { ActionCreators } from "redux-undo";
+import { Theme } from "@mui/material";
 
-import Card from "@mui/material/Card";
-import CardMedia from "@mui/material/CardMedia";
-import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
-import IconButton from "@mui/material/IconButton";
-import ClearIcon from "@mui/icons-material/Clear";
 
 import useStyles from "./styles";
-import IntInputWithControls from "../../inputs/int-input-with-controls";
-import SelectInput from "../../inputs/select-input";
-import { moneyParser } from "../../../utils";
-import {
-  addCartProduct,
-  deleteCartProduct,
-  editCartProductQuantity,
-  ICartProduct,
-  useAppDispatch,
-} from "../../../store";
-import ModalAddProduct from "../../modal/modal-add-product";
+import { useAppDispatch } from "../../../store";
 
 interface Props extends WithThemeProps<Theme> {}
 
@@ -35,8 +17,6 @@ const ProductTableHead: React.FC<Props> = ({ theme, ...product }) => {
     cls_product_head__section,
     cls_product_head__section_empty,
   } = useStyles();
-
-  // const downXXS = useMediaQuery(theme.breakpoints.down(500));
 
   return (
     <div className={cls_product_head}>
