@@ -51,8 +51,8 @@ const IntInputWithControls = ({
         style={{ borderRadius: "0", minWidth: "2rem" }}
         variant="contained"
         onClick={() => {
-          if (maxQuantity && quantity <= maxQuantity) {
-            setQuantity(quantity + 1);
+          if (maxQuantity) {
+            if (quantity < maxQuantity) setQuantity(quantity + 1);
             return;
           }
 
@@ -61,24 +61,6 @@ const IntInputWithControls = ({
       >
         +
       </Button>
-
-      {maxQuantity && (
-        <Box
-          display="flex"
-          width="100%"
-          height="100%"
-          ml="0.5rem"
-          alignItems="center"
-        >
-          <Typography
-            style={{ width: "100%" }}
-            fontSize="10px"
-            fontWeight={600}
-          >
-            Estoque: {maxQuantity || " - "}
-          </Typography>
-        </Box>
-      )}
     </Box>
   );
 };

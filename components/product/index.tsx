@@ -235,6 +235,11 @@ const Product: React.FC<Props> = ({ theme, ...product }) => {
           <Typography fontWeight={600}>SKU:</Typography>
           <Typography>{sku?.skuCode || skus[0].skuCode}</Typography>
         </Box>
+
+        <Box display="flex" gap="0.3rem">
+          <Typography fontWeight={600}>Estoque:</Typography>
+          <Typography>{sku?.quantity || " - "}</Typography>
+        </Box>
         <Box display="flex" gap="0.3rem">
           <Typography fontWeight={600}>Loja:</Typography>
           <Typography>{company.name}</Typography>
