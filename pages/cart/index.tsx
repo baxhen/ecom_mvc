@@ -8,19 +8,35 @@ import Typography from "@mui/material/Typography";
 import withHeaderSpacing from "../../hoc/with-header-spacing";
 import ProductsTable from "../../components/products-table";
 import CartTotal from "../../components/cart-total";
-import { useAppDispatch, useAppSelector } from "../../store";
-import theme from "../../styles/theme";
+import {
+  cartHasProductsSelector,
+  cartProductsSelector,
+  useAppDispatch,
+  useAppSelector,
+} from "../../store";
 import PageTitle from "../../components/page-title";
+import { getShippingPrice, useGetShippingPricePerProduct } from "../../hooks";
+import { connect } from "react-redux";
+import { client } from "../../api";
+import { IPaginatedProduct } from "../../types";
 
-const Cart: NextPage = () => {
+export interface Shipping {
+  id: number;
+  weight: number;
+  price: number;
+}
+interface Props {
+  shipping?: Shipping[];
+}
+
+const Cart: NextPage<Props> = ({ shipping }) => {
   const dispatch = useAppDispatch();
 
-  // const cartProductsId = useAppSelector()
+  const hasProducts = useAppSelector(cartHasProductsSelector);
 
   React.useEffect(() => {
     dispatch(ActionCreators.clearHistory());
   }, []);
-
   return (
     <Box
       display="flex"
@@ -32,9 +48,36 @@ const Cart: NextPage = () => {
       <PageTitle title="Carrinho" />
 
       <ProductsTable />
-      <CartTotal />
+      {hasProducts && <CartTotal shipping={shipping} />}
     </Box>
   );
 };
 
-export default withHeaderSpacing(Cart);
+const _Cart: NextPage<Props> = withHeaderSpacing(Cart);
+
+_Cart.getInitialProps = async (ctx) => {
+  try {
+    const response = await client.get<IPaginatedProduct>("/products/1", {
+      params: { pageNumber: 0, pageSize: 25 },
+    });
+
+    const productsIdWithWeight = response.data.data.data.map((p) => ({
+      id: p.id,
+      weight: p.weight,
+    }));
+
+    const shipping = await Promise.all(
+      productsIdWithWeight.map(async (p) => {
+        const data = await getShippingPrice(p);
+
+        return { ...p, price: data.price };
+      })
+    );
+
+    return { shipping };
+  } catch (error) {
+    return { shipping: [] };
+  }
+};
+
+export default _Cart;

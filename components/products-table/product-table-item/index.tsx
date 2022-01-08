@@ -7,23 +7,18 @@ import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import ClearIcon from "@mui/icons-material/Clear";
 
 import useStyles from "./styles";
 import IntInputWithControls from "../../inputs/int-input-with-controls";
-import SelectInput from "../../inputs/select-input";
 import { moneyParser } from "../../../utils";
 import {
-  addCartProduct,
   deleteCartProduct,
   editCartProductQuantity,
-  ICartProduct,
   useAppDispatch,
 } from "../../../store";
-import ModalAddProduct from "../../modal/modal-add-product";
+import { ICartProduct } from "../../../types";
 
 interface Props extends WithThemeProps<Theme>, ICartProduct {}
 
@@ -37,11 +32,13 @@ const ProductTableItem: React.FC<Props> = ({ theme, ...product }) => {
     cls_product_item__section_empty,
   } = useStyles();
 
-  const { name, img, description, sku, store, price, quantity, id } = product;
+  const { name, defaultImage, description, sku, listPrice, quantity, id } =
+    product;
 
   const up768 = useMediaQuery(theme.breakpoints.up(768));
 
   const setQuantity: any = (newQuantity: number) => {
+    if (sku.quantity < newQuantity) return;
     dispatch(editCartProductQuantity({ id, quantity: newQuantity }));
     dispatch(ActionCreators.clearHistory());
   };
@@ -62,7 +59,7 @@ const ProductTableItem: React.FC<Props> = ({ theme, ...product }) => {
       </div>
       {up768 && (
         <div className={cls_product_item__section_empty}>
-          <img height="100%" src={img} alt="item-carrinho" />
+          <img height="100%" src={defaultImage} alt="item-carrinho" />
         </div>
       )}
       <div className={cls_product_item__section}>
@@ -72,7 +69,9 @@ const ProductTableItem: React.FC<Props> = ({ theme, ...product }) => {
           </Typography>
         )}
 
-        <Typography variant="body1">{name}</Typography>
+        <Typography variant="body1" noWrap={!up768}>
+          {name}
+        </Typography>
       </div>
       <div className={cls_product_item__section}>
         {!up768 && (
@@ -81,7 +80,7 @@ const ProductTableItem: React.FC<Props> = ({ theme, ...product }) => {
           </Typography>
         )}
 
-        <Typography variant="body1">{moneyParser.format(price)}</Typography>
+        <Typography variant="body1">{moneyParser.format(listPrice)}</Typography>
       </div>
       <div className={cls_product_item__section}>
         {!up768 && (
@@ -105,22 +104,13 @@ const ProductTableItem: React.FC<Props> = ({ theme, ...product }) => {
         )}
 
         <Typography variant="body1">
-          {moneyParser.format(quantity * price)}
+          {moneyParser.format(quantity * listPrice)}
         </Typography>
       </div>
     </div>
   );
 };
 
-ProductTableItem.defaultProps = {
-  img: "https://www.portotheme.com/wordpress/porto/shop1/wp-content/uploads/sites/77/2017/11/product-23-600x600.jpg",
-  sku: "654111995-1-1-2",
-  store: "Renner",
-  description:
-    "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.",
-  name: "Bolsa",
-  price: 100,
-  quantity: 1,
-};
+ProductTableItem.defaultProps = {};
 
 export default withTheme<Theme, typeof ProductTableItem>(ProductTableItem);

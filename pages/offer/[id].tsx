@@ -8,13 +8,36 @@ import withHeaderSpacing from "../../hoc/with-header-spacing";
 import Product from "../../components/product";
 import { IOffer } from "../../types";
 import { client } from "../../api";
+import { useAppDispatch, useAppSelector } from "../../store";
+import { addOffer, offersSelector } from "../../store/offer";
 
 interface Props {
   offer?: IOffer;
+  id?: string;
 }
 
-const Offer: NextPage<Props> = ({ offer }) => {
-  console.log({ offer });
+const Offer: NextPage<Props> = ({ offer, id }) => {
+  const dispatch = useAppDispatch();
+
+  const offers = useAppSelector(offersSelector);
+
+  const [_offer, setOffer] = React.useState(offer);
+
+  React.useEffect(() => {
+    if (offer) {
+      dispatch(addOffer(offer));
+
+      return;
+    }
+
+    if (id) {
+      const offer = offers.find((off) => off.id === +id);
+
+      if (offer) {
+        setOffer(offer);
+      }
+    }
+  }, []);
   return (
     <Box display="flex" flexDirection="column" alignItems="center">
       <Box
@@ -24,9 +47,9 @@ const Offer: NextPage<Props> = ({ offer }) => {
         gap="1rem"
         pt="1rem"
       >
-        {offer?.products.map((product) => {
+        {_offer?.products.map((product) => {
           return (
-            <Product key={product.id} {...product} company={offer.company} />
+            <Product key={product.id} {...product} company={_offer.company} />
           );
         })}
       </Box>
@@ -49,7 +72,11 @@ _Offer.getInitialProps = async (context: NextPageContext) => {
     console.error(error);
   }
 
-  return {};
+  if (Array.isArray(id)) {
+    return { id: id[0] };
+  }
+
+  return { id };
 };
 
 export default _Offer;

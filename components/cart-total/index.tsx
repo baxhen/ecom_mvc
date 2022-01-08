@@ -18,10 +18,13 @@ import {
   useAppSelector,
 } from "../../store";
 import { moneyParser } from "../../utils";
+import { Shipping } from "../../pages/cart";
 
-interface Props extends WithThemeProps<Theme> {}
+interface Props extends WithThemeProps<Theme> {
+  shipping?: Shipping[];
+}
 
-const CartTotal: React.FC<Props> = ({ theme }) => {
+const CartTotal: React.FC<Props> = ({ theme, shipping }) => {
   const router = useRouter();
 
   const {
@@ -35,8 +38,18 @@ const CartTotal: React.FC<Props> = ({ theme }) => {
   /** Selectors */
 
   const subtotal = useAppSelector(cartSubtotalSelector);
+  const products = useAppSelector(cartProductsSelector);
 
   /** */
+
+  const shippingPrice = products.reduce((acc, curr) => {
+    const productShippingPrice = shipping?.find(({ id }) => id === curr.id);
+
+    if (productShippingPrice) {
+      return acc + productShippingPrice?.price * curr.quantity;
+    }
+    return acc;
+  }, 0);
 
   return (
     <div className={cls_cart_total}>
@@ -50,9 +63,13 @@ const CartTotal: React.FC<Props> = ({ theme }) => {
           <Typography>{moneyParser.format(subtotal)}</Typography>
         </div>
         <div className={cls_cart_total__summary__item}>
+          <Typography fontWeight={600}>Frete:</Typography>
+          <Typography>{moneyParser.format(shippingPrice)}</Typography>
+        </div>
+        <div className={cls_cart_total__summary__item}>
           <Typography fontWeight={600}>Total:</Typography>
           <Typography fontWeight={600}>
-            {moneyParser.format(subtotal)}
+            {moneyParser.format(subtotal + shippingPrice)}
           </Typography>
         </div>
       </div>
@@ -71,5 +88,7 @@ const CartTotal: React.FC<Props> = ({ theme }) => {
     </div>
   );
 };
+
+CartTotal.defaultProps = { shipping: [] };
 
 export default withTheme<Theme, typeof CartTotal>(CartTotal);

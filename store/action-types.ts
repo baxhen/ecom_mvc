@@ -16,6 +16,7 @@ export enum ActionTypes {
   addCartProduct = "addCartProduct",
   deleteCartProduct = "deleteCartProduct",
   editCartProductQuantity = "editCartProductQuantity",
+  addOffer = "addOffer",
 }
 
 export type Action =

@@ -14,6 +14,10 @@ const useStyles = makeStyles(() => ({
     background: lighten(theme.palette.primary.main, 0.5),
 
     animation: `$fadeIn 1s`,
+
+    [theme.breakpoints.down(769)]: {
+      width: "100%",
+    },
   },
 }));
 

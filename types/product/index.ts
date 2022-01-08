@@ -45,3 +45,32 @@ export interface AttributeDetail {
 export interface Image {
   imageUrl: string;
 }
+
+export interface IPaginatedProduct {
+  status: number;
+  message: string;
+  data: Data;
+}
+
+export interface Data {
+  data: Datum[];
+  totalResult: number;
+  totalPage: number;
+  currentPage: number;
+}
+
+export interface Datum {
+  id: number;
+  name: string;
+  description: string;
+  salePrice: number;
+  listPrice: number;
+  weight: number;
+  length: number;
+  width: number;
+  height: number;
+  defaultImage: string;
+  images: null;
+  skus: Skus[];
+  attributes: Attribute[];
+}

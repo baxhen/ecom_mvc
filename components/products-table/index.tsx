@@ -10,17 +10,11 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Link from "@mui/material/Link";
-import ClearIcon from "@mui/icons-material/Clear";
 
 import useStyles from "./styles";
-import IntInputWithControls from "../inputs/int-input-with-controls";
-import SelectInput from "../inputs/select-input";
-import { moneyParser } from "../../utils";
 import {
-  addCartProduct,
   cartCanUndoSelector,
   cartProductsSelector,
-  ICartProduct,
   useAppDispatch,
   useAppSelector,
 } from "../../store";
@@ -61,12 +55,15 @@ const ProductsTable: React.FC<Props> = ({ theme }) => {
           </Box>
         </Box>
       )}
-      {up768 && <ProductTableHead />}
-      <div className={cls_products_items_container}>
-        {products.map((product) => {
-          return <ProductTableItem {...product} key={product.id} />;
-        })}
-      </div>
+
+      {up768 && products.length && <ProductTableHead />}
+      {(products.length && (
+        <div className={cls_products_items_container}>
+          {products.map((product) => {
+            return <ProductTableItem {...product} key={product.id} />;
+          })}
+        </div>
+      )) || <div>Carrinho sem produtos</div>}
     </div>
   );
 };

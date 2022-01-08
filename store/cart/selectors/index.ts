@@ -13,6 +13,10 @@ export const cartProductsSelector = createSelector(
   [state],
   (cart) => cart.products
 );
+export const cartHasProductsSelector = createSelector(
+  [state],
+  (cart) => !!cart.products.length
+);
 export const cartSubtotalSelector = createSelector([state], (cart) =>
   cart.products.reduce((acc, curr) => {
     return acc + curr.sku?.listedPrice * curr.quantity;
