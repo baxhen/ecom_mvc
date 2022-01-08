@@ -28,6 +28,7 @@
     "reselect": "^4.1.5"
   },
   "devDependencies": {
+    "@netlify/plugin-nextjs": "^4.0.0-rc.2",
     "@types/node": "16.11.12",
     "@types/react": "17.0.37",
     "babel-plugin-emotion": "^11.0.0",
