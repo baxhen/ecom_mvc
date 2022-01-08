@@ -216,6 +216,7 @@ const Product: React.FC<Props> = ({ theme, ...product }) => {
           <IntInputWithControls
             quantity={quantity}
             setQuantity={setQuantity}
+            maxQuantity={sku?.quantity}
             height="2.5rem"
           />
           <Button
@@ -226,6 +227,7 @@ const Product: React.FC<Props> = ({ theme, ...product }) => {
             Comprar
           </Button>
         </Box>
+
         <Box display="flex" gap="0.3rem">
           <Typography fontWeight={600}>SKU:</Typography>
           <Typography>{sku?.skuCode || skus[0].skuCode}</Typography>

@@ -4,9 +4,11 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 
 import TextInput from "../text-input";
+import { Typography } from "@mui/material";
 
 interface Props {
   quantity: number;
+  maxQuantity?: number;
   setQuantity: React.Dispatch<React.SetStateAction<number>>;
   height?: string;
   maxHeight?: string;
@@ -16,6 +18,7 @@ interface Props {
 const IntInputWithControls = ({
   quantity,
   setQuantity,
+  maxQuantity,
   height,
   maxHeight,
   width,
@@ -24,7 +27,7 @@ const IntInputWithControls = ({
     <Box
       display="flex"
       height={height || "100%"}
-      width={width || "112px"}
+      width={width || "180px"}
       maxHeight={maxHeight}
     >
       <Button
@@ -47,10 +50,29 @@ const IntInputWithControls = ({
       <Button
         style={{ borderRadius: "0", minWidth: "2rem" }}
         variant="contained"
-        onClick={() => setQuantity(quantity + 1)}
+        onClick={() => {
+          if (maxQuantity && quantity <= maxQuantity) {
+            setQuantity(quantity + 1);
+            return;
+          }
+
+          setQuantity(quantity + 1);
+        }}
       >
         +
       </Button>
+
+      <Box
+        display="flex"
+        width="100%"
+        height="100%"
+        ml="0.5rem"
+        alignItems="center"
+      >
+        <Typography style={{ width: "100%" }} fontSize="10px" fontWeight={600}>
+          Estoque: {maxQuantity || " - "}
+        </Typography>
+      </Box>
     </Box>
   );
 };
