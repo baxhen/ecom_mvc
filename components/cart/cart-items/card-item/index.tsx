@@ -11,22 +11,21 @@ import { Button, Theme } from "@mui/material";
 import useStyles from "./styles";
 import { moneyParser } from "../../../../utils";
 import { deleteCartProduct, useAppDispatch } from "../../../../store";
+import { IProduct } from "../../../../types";
 
-interface Props extends WithThemeProps<Theme> {
-  name: string;
+interface Props extends WithThemeProps<Theme>, IProduct {
+  sku: IProduct["skus"][0];
   quantity: number;
-  price: number;
-  id: number;
-  img?: string;
 }
 
 const CartItem: React.FC<Props> = ({
   theme,
   name,
   quantity,
-  price,
-  img,
+  listPrice,
+  defaultImage,
   id,
+  sku,
 }) => {
   const dispatch = useAppDispatch();
 
@@ -38,7 +37,7 @@ const CartItem: React.FC<Props> = ({
 
   return (
     <div className={cls_cart__item}>
-      <img height="100%" src={img} alt="item-carrinho" />
+      <img height="100%" src={defaultImage} alt="item-carrinho" />
       <div className={cls_cart__item__content}>
         <Box display="flex">
           <Typography sx={{ mt: "5px" }} noWrap fontWeight={600}>
@@ -52,7 +51,7 @@ const CartItem: React.FC<Props> = ({
         <Typography>
           {quantity} x{" "}
           <span style={{ fontWeight: 600, color: theme.palette.primary.main }}>
-            {moneyParser.format(price)}
+            {moneyParser.format(sku?.listedPrice || 0)}
           </span>
         </Typography>
       </div>
@@ -60,11 +59,6 @@ const CartItem: React.FC<Props> = ({
   );
 };
 
-CartItem.defaultProps = {
-  name: "",
-  quantity: 0,
-  price: 0,
-  img: "https://www.portotheme.com/wordpress/porto/shop1/wp-content/uploads/sites/77/2017/11/product-23-600x600.jpg",
-};
+CartItem.defaultProps = {};
 
 export default withTheme<Theme, typeof CartItem>(CartItem);

@@ -63,9 +63,12 @@ const Product: React.FC<Props> = ({ theme, ...product }) => {
   const [open, setOpen] = React.useState(false);
 
   const onBuyClick = () => {
-    dispatch(addCartProduct({ ...product, quantity }));
-    setOpen(true);
-    setQuantity(1);
+    if (sku) {
+      console.log({ sku });
+      dispatch(addCartProduct({ ...product, quantity, sku }));
+      setOpen(true);
+      setQuantity(1);
+    }
   };
 
   const onOptionChange =

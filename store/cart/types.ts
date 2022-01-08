@@ -1,5 +1,5 @@
-import { IProduct } from "../../types";
+import { ICartProduct, IProduct } from "../../types";
 
 export interface ICartState {
-  products: IProduct[];
+  products: ICartProduct[];
 }

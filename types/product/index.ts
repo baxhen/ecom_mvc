@@ -10,8 +10,13 @@ export interface IProduct {
   height: number;
   defaultImage: string;
   images: null;
-  skus: Skus[];
+  quantity: number;
   attributes: Attribute[];
+  skus: Skus[];
+}
+export interface ICartProduct extends IProduct {
+  sku: Skus;
+  quantity: number;
 }
 
 export interface Attribute {

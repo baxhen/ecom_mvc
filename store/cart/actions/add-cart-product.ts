@@ -1,5 +1,5 @@
+import { ICartProduct } from "../../../types";
 import { ActionTypes } from "../../action-types";
-import { ICartProduct } from "../types";
 
 export interface AddCartProductAction {
   type: typeof ActionTypes.addCartProduct;

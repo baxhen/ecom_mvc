@@ -15,7 +15,7 @@ export const cartProductsSelector = createSelector(
 );
 export const cartSubtotalSelector = createSelector([state], (cart) =>
   cart.products.reduce((acc, curr) => {
-    return acc + curr.price * curr.quantity;
+    return acc + curr.sku?.listedPrice * curr.quantity;
   }, 0)
 );
 export const cartCanUndoSelector = createSelector(
