@@ -21,17 +21,18 @@ import { CircularProgress } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import withHeaderSpacing from "../../../hoc/with-header-spacing";
 import PageTitle from "../../../components/page-title";
-import { IQuestionAPI } from "../../../types";
+import { IInstallmentsAPI, IOrder, IQuestionAPI } from "../../../types";
 import { client } from "../../../api";
 import { useRouter } from "next/router";
 import { AntiFraudParams, useCheckAntiFraudAnswers } from "../../../hooks";
 import { orderIdSelector } from "../../../store/order";
 
 interface Props {
-  questions?: IQuestionAPI["questions"];
+  amount?: number;
+  installments?: IInstallmentsAPI["data"]["creditcard"]["installments"];
 }
 
-const PaymentInfo: NextPage<Props> = ({ questions = [] }) => {
+const PaymentInfo: NextPage<Props> = ({ amount, installments }) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
 
@@ -42,13 +43,17 @@ const PaymentInfo: NextPage<Props> = ({ questions = [] }) => {
   const { register, handleSubmit } = useForm();
 
   const onSubmit = async (data: any) => {
-    const payload: AntiFraudParams = {
-      answers: {
-        questions: questions.map(({ id }) => ({ id, answer: +data[id] })),
-      },
-      orderId,
-    };
+    // const payload: AntiFraudParams = {
+    //   answers: {
+    //     questions: questions.map(({ id }) => ({ id, answer: +data[id] })),
+    //   },
+    //   orderId,
+    // };
   };
+
+  React.useEffect(() => {
+    console.log({ amount, installments });
+  }, []);
 
   return (
     <Box
@@ -58,7 +63,7 @@ const PaymentInfo: NextPage<Props> = ({ questions = [] }) => {
       p="2rem"
       gap="2rem"
     >
-      <PageTitle title="Informações de Pagamento" />
+      <PageTitle title="Pagamento" />
       {/* <Typography alignSelf="self-start" fontWeight={600}>
         Questionário antifraude
       </Typography>
@@ -130,16 +135,21 @@ _PaymentInfo.getInitialProps = async (context: NextPageContext) => {
   const { id } = context.query;
 
   try {
-    const { data } = await client.get<IQuestionAPI>(
-      `https://payment.carrin.io/payment/api/v1/checkout/${id}/questions`
+    const { data } = await client.get<IOrder>(`/orders/detail/${id}`);
+
+    const amount = data.data.orders.totalAmount;
+
+    const response = await client.get<IInstallmentsAPI>(
+      `https://payment.carrin.io/payment/api/v1/checkout/simulate`,
+      { params: { amount } }
     );
 
-    return { questions: data.questions };
+    return { amount, installments: response.data.data.creditcard.installments };
   } catch (error) {
     console.error(error);
   }
 
-  return { questions: [] };
+  return { amount: 0, installments: [] };
 };
 
 export default _PaymentInfo;

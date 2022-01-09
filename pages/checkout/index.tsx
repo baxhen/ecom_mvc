@@ -37,7 +37,7 @@ const Checkout: NextPage = () => {
 
   const [open, setOpen] = useState(false);
 
-  const { register, watch, handleSubmit, getValues } = useForm({
+  const { register, watch, handleSubmit, getValues } = useForm<any>({
     defaultValues: { user: { sameBillingAddress: true } },
   });
 

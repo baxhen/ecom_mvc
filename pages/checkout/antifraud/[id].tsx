@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import type { NextPage, NextPageContext } from "next";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -39,7 +39,7 @@ const AntiFraud: NextPage<Props> = ({ questions = [] }) => {
 
   const { mutateAsync: checkAnswers, isLoading } = useCheckAntiFraudAnswers();
 
-  const { register, handleSubmit } = useForm();
+  const { control, handleSubmit, getValues } = useForm();
 
   const onSubmit = async (data: any) => {
     const payload: AntiFraudParams = {
@@ -79,21 +79,31 @@ const AntiFraud: NextPage<Props> = ({ questions = [] }) => {
         {questions.map((question) => {
           return (
             <Grid xs={12} item key={question.id}>
-              <FormControl component="fieldset">
-                <FormLabel component="legend">{question.question}</FormLabel>
-                <RadioGroup {...register("" + question.id)}>
-                  {question.answers.map((answer) => {
-                    return (
-                      <FormControlLabel
-                        key={answer.id}
-                        value={answer.id}
-                        control={<Radio />}
-                        label={answer.answer}
-                      />
-                    );
-                  })}
-                </RadioGroup>
-              </FormControl>
+              <Controller
+                control={control}
+                name={question.id + ""}
+                render={({ field }) => {
+                  return (
+                    <FormControl component="fieldset">
+                      <FormLabel component="legend">
+                        {question.question}
+                      </FormLabel>
+                      <RadioGroup {...field}>
+                        {question.answers.map((answer) => {
+                          return (
+                            <FormControlLabel
+                              key={answer.id}
+                              value={answer.id}
+                              control={<Radio />}
+                              label={answer.answer}
+                            />
+                          );
+                        })}
+                      </RadioGroup>
+                    </FormControl>
+                  );
+                }}
+              />
             </Grid>
           );
         })}
