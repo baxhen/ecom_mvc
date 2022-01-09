@@ -85,6 +85,7 @@ const AntiFraud: NextPage<Props> = ({ questions = [] }) => {
                   {question.answers.map((answer) => {
                     return (
                       <FormControlLabel
+                        key={answer.id}
                         value={answer.id}
                         control={<Radio />}
                         label={answer.answer}
