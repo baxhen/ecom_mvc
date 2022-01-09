@@ -31,7 +31,7 @@ interface Props {
   questions?: IQuestionAPI["questions"];
 }
 
-const AntiFraud: NextPage<Props> = ({ questions = [] }) => {
+const PaymentInfo: NextPage<Props> = ({ questions = [] }) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
 
@@ -48,12 +48,6 @@ const AntiFraud: NextPage<Props> = ({ questions = [] }) => {
       },
       orderId,
     };
-
-    const resp = await checkAnswers(payload);
-
-    if (resp.success) {
-      router.push(`/checkout/payment-info/${orderId}`);
-    }
   };
 
   return (
@@ -64,8 +58,8 @@ const AntiFraud: NextPage<Props> = ({ questions = [] }) => {
       p="2rem"
       gap="2rem"
     >
-      <PageTitle title="Antifraude" />
-      <Typography alignSelf="self-start" fontWeight={600}>
+      <PageTitle title="Informações de Pagamento" />
+      {/* <Typography alignSelf="self-start" fontWeight={600}>
         Questionário antifraude
       </Typography>
       <Grid
@@ -116,7 +110,7 @@ const AntiFraud: NextPage<Props> = ({ questions = [] }) => {
             Continuar
           </Button>
         </Grid>
-      </Grid>
+      </Grid> */}
       <Backdrop
         sx={{
           color: (theme) => theme.palette.common.white,
@@ -130,9 +124,9 @@ const AntiFraud: NextPage<Props> = ({ questions = [] }) => {
   );
 };
 
-const _AntiFraud: NextPage<Props> = withHeaderSpacing(AntiFraud);
+const _PaymentInfo: NextPage<Props> = withHeaderSpacing(PaymentInfo);
 
-_AntiFraud.getInitialProps = async (context: NextPageContext) => {
+_PaymentInfo.getInitialProps = async (context: NextPageContext) => {
   const { id } = context.query;
 
   try {
@@ -148,4 +142,4 @@ _AntiFraud.getInitialProps = async (context: NextPageContext) => {
   return { questions: [] };
 };
 
-export default _AntiFraud;
+export default _PaymentInfo;

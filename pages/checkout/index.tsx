@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useForm, useWatch } from "react-hook-form";
@@ -6,25 +6,80 @@ import { useForm, useWatch } from "react-hook-form";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
-import { Button, FormControlLabel, Switch, Typography } from "@mui/material";
+import Switch from "@mui/material/Switch";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Button from "@mui/material/Button";
+import Backdrop from "@mui/material/Backdrop";
+import Typography from "@mui/material/Typography";
+
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { CircularProgress } from "@mui/material";
 
 import withHeaderSpacing from "../../hoc/with-header-spacing";
-import { useAppDispatch } from "../../store";
+import {
+  cartProductsItemsWithSkuAndQuantitySelector,
+  useAppDispatch,
+  useAppSelector,
+} from "../../store";
 import PageTitle from "../../components/page-title";
+import ModalAlert from "../../components/modal/modal-alert";
+import { useCreateOrder } from "../../hooks";
+import { addOrder } from "../../store/order";
 
 const Checkout: NextPage = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
 
-  const { register, control, handleSubmit } = useForm();
+  const productItems = useAppSelector(
+    cartProductsItemsWithSkuAndQuantitySelector
+  );
+
+  const [open, setOpen] = useState(false);
+
+  const { register, control, handleSubmit, getValues } = useForm();
+
+  const {
+    mutate: createOrder,
+    isLoading,
+    isSuccess,
+    isError,
+    data,
+    error = "",
+  } = useCreateOrder();
 
   const sameBillingAddress = useWatch({
     control,
     name: "user.sameBillingAddress",
     defaultValue: true,
   });
+
+  const onSubmit = (data: any) => {
+    const payload = { ...data, productItems };
+    if (sameBillingAddress) {
+      payload.user.billingAddress = payload.user.address;
+    }
+
+    createOrder(payload);
+  };
+
+  React.useEffect(() => {
+    if (isSuccess) {
+      const order: any = { ...getValues(), productItems, id: data.data.id };
+      if (sameBillingAddress) {
+        order.user.billingAddress = order.user.address;
+      }
+      dispatch(addOrder(order));
+
+      router.push(`/checkout/antifraud/${order.id}`);
+    }
+  }, [isSuccess, data]);
+
+  React.useEffect(() => {
+    if (isError) {
+      setOpen(true);
+    }
+  }, [isError, error]);
 
   return (
     <Box
@@ -36,11 +91,7 @@ const Checkout: NextPage = () => {
     >
       <PageTitle title="Checkout" />
 
-      <form
-        onSubmit={handleSubmit((data) => {
-          console.log({ data });
-        })}
-      >
+      <form onSubmit={handleSubmit(onSubmit)}>
         <Typography
           style={{ margin: "2rem 0" }}
           alignSelf="self-start"
@@ -49,13 +100,7 @@ const Checkout: NextPage = () => {
           Dados Pessoais
         </Typography>
 
-        <Grid
-          container
-          spacing={4}
-          alignItems="center"
-          justifyContent="center"
-          component="form"
-        >
+        <Grid container spacing={4} alignItems="center" justifyContent="center">
           <Grid xs={12} item>
             <TextField label="CPF" {...register("user.cpf")} />
           </Grid>
@@ -70,6 +115,8 @@ const Checkout: NextPage = () => {
           </Grid>
           <Grid xs={12} item>
             <TextField
+              type="date"
+              InputLabelProps={{ shrink: true }}
               label="Data de Nascimento"
               {...register("user.birthdate")}
             />
@@ -86,13 +133,7 @@ const Checkout: NextPage = () => {
         >
           Endereço
         </Typography>
-        <Grid
-          container
-          spacing={4}
-          alignItems="center"
-          justifyContent="center"
-          component="form"
-        >
+        <Grid container spacing={4} alignItems="center" justifyContent="center">
           <Grid xs={12} item>
             <TextField label="CEP" {...register("user.address.postal_code")} />
           </Grid>
@@ -226,6 +267,24 @@ const Checkout: NextPage = () => {
           </Button>
         </Box>
       </form>
+      <Backdrop
+        sx={{
+          color: (theme) => theme.palette.common.white,
+          zIndex: (theme) => theme.zIndex.drawer + 1,
+        }}
+        open={isLoading}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
+      <ModalAlert
+        open={open}
+        setOpen={setOpen}
+        message={
+          (error as any)?.response?.data?.message ||
+          "Não foi possível criar a ordem"
+        }
+        severity="error"
+      />
     </Box>
   );
 };

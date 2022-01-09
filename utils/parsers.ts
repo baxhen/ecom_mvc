@@ -1,4 +1,4 @@
-export const moneyParser = new Intl.NumberFormat("pt-BR", {
+export const moneyParser = new Intl.NumberFormat("en-US", {
   style: "currency",
-  currency: "BRL",
+  currency: "USD",
 });

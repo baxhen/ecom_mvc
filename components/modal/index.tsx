@@ -1,4 +1,6 @@
 import React from "react";
+import clsx from "clsx";
+
 import { withTheme, WithTheme as WithThemeProps } from "@mui/styles";
 import Box from "@mui/material/Box";
 import Backdrop from "@mui/material/Backdrop";
@@ -12,9 +14,15 @@ import useStyles from "./styles";
 interface Props extends WithThemeProps<Theme> {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  className?: string;
 }
 
-const Modal: React.FC<Props> = ({ theme, open, setOpen, children }) => {
+const Modal: React.FC<Props> = ({
+  open,
+  setOpen,
+  children,
+  className = "",
+}) => {
   const { cls_modal } = useStyles();
 
   const handleClose = () => setOpen(false);
@@ -31,7 +39,7 @@ const Modal: React.FC<Props> = ({ theme, open, setOpen, children }) => {
         }}
       >
         <Fade in={open}>
-          <Box className={cls_modal}>{children}</Box>
+          <Box className={clsx(cls_modal, className)}>{children}</Box>
         </Fade>
       </MaterialModal>
     </Box>

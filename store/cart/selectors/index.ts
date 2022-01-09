@@ -13,6 +13,13 @@ export const cartProductsSelector = createSelector(
   [state],
   (cart) => cart.products
 );
+export const cartProductsItemsWithSkuAndQuantitySelector = createSelector(
+  [state],
+  (cart) =>
+    cart.products.map((product) => {
+      return { skuId: product.sku.id, quantity: product.quantity };
+    })
+);
 export const cartHasProductsSelector = createSelector(
   [state],
   (cart) => !!cart.products.length
