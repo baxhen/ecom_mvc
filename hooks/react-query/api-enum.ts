@@ -6,4 +6,5 @@ export enum QueryKeys {
 export enum MutationKeys {
   createOrder = "createOrder",
   checkAntiFraudAnswers = "checkAntiFraudAnswers",
+  savePaymentMethod = "savePaymentMethod",
 }
