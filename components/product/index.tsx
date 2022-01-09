@@ -44,15 +44,8 @@ const Product: React.FC<Props> = ({ theme, ...product }) => {
     cls_product__content__price,
   } = useStyles();
 
-  const {
-    name,
-    defaultImage,
-    description,
-    skus,
-    company,
-    attributes,
-    listPrice,
-  } = product;
+  const { name, defaultImage, description, skus, company, attributes } =
+    product;
 
   const downXXS = useMediaQuery(theme.breakpoints.down(500));
 
@@ -64,7 +57,6 @@ const Product: React.FC<Props> = ({ theme, ...product }) => {
 
   const onBuyClick = () => {
     if (sku) {
-      console.log({ sku });
       dispatch(addCartProduct({ ...product, quantity, sku }));
       setOpen(true);
       setQuantity(1);
@@ -85,7 +77,6 @@ const Product: React.FC<Props> = ({ theme, ...product }) => {
           (att) => att.attribute.id !== id
         );
 
-        console.log({ sku, attributesRelatedSkuWithoutCurrent });
         setOptionsConfig((previous): IOptionConfig[] => {
           /** update value */
 
@@ -148,7 +139,6 @@ const Product: React.FC<Props> = ({ theme, ...product }) => {
         const index = config.findIndex((op) => op.id === attribute.id);
 
         if (index !== -1) {
-          console.log(config[index].options);
           const alreadyAdded = config[index].options.find(
             ({ label }) => label === valueString
           );
@@ -178,7 +168,7 @@ const Product: React.FC<Props> = ({ theme, ...product }) => {
           {name}
         </Typography>
         <Typography variant="subtitle1" className={cls_product__content__price}>
-          {moneyParser.format(sku?.listedPrice || listPrice)}
+          {moneyParser.format(sku?.sellingPrice || skus[0].sellingPrice)}
         </Typography>
         <Typography
           variant="subtitle2"

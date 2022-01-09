@@ -32,8 +32,7 @@ const ProductTableItem: React.FC<Props> = ({ theme, ...product }) => {
     cls_product_item__section_empty,
   } = useStyles();
 
-  const { name, defaultImage, description, sku, listPrice, quantity, id } =
-    product;
+  const { name, defaultImage, description, sku, quantity, id } = product;
 
   const up768 = useMediaQuery(theme.breakpoints.up(768));
 
@@ -80,7 +79,9 @@ const ProductTableItem: React.FC<Props> = ({ theme, ...product }) => {
           </Typography>
         )}
 
-        <Typography variant="body1">{moneyParser.format(listPrice)}</Typography>
+        <Typography variant="body1">
+          {moneyParser.format(sku.sellingPrice)}
+        </Typography>
       </div>
       <div className={cls_product_item__section}>
         {!up768 && (
@@ -104,7 +105,7 @@ const ProductTableItem: React.FC<Props> = ({ theme, ...product }) => {
         )}
 
         <Typography variant="body1">
-          {moneyParser.format(quantity * listPrice)}
+          {moneyParser.format(quantity * sku.sellingPrice)}
         </Typography>
       </div>
     </div>

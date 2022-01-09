@@ -37,7 +37,9 @@ const Checkout: NextPage = () => {
 
   const [open, setOpen] = useState(false);
 
-  const { register, control, handleSubmit, getValues } = useForm();
+  const { register, watch, handleSubmit, getValues } = useForm({
+    defaultValues: { user: { sameBillingAddress: true } },
+  });
 
   const {
     mutate: createOrder,
@@ -48,11 +50,7 @@ const Checkout: NextPage = () => {
     error = "",
   } = useCreateOrder();
 
-  const sameBillingAddress = useWatch({
-    control,
-    name: "user.sameBillingAddress",
-    defaultValue: true,
-  });
+  const sameBillingAddress = watch("user.sameBillingAddress");
 
   const onSubmit = (data: any) => {
     const payload = { ...data, productItems };
@@ -80,6 +78,9 @@ const Checkout: NextPage = () => {
       setOpen(true);
     }
   }, [isError, error]);
+  React.useEffect(() => {
+    console.log(sameBillingAddress);
+  }, [sameBillingAddress]);
 
   return (
     <Box
