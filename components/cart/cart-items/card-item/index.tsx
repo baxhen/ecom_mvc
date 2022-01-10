@@ -22,7 +22,6 @@ const CartItem: React.FC<Props> = ({
   theme,
   name,
   quantity,
-  listPrice,
   defaultImage,
   id,
   sku,
@@ -51,7 +50,7 @@ const CartItem: React.FC<Props> = ({
         <Typography>
           {quantity} x{" "}
           <span style={{ fontWeight: 600, color: theme.palette.primary.main }}>
-            {moneyParser.format(sku?.listedPrice || 0)}
+            {moneyParser.format(sku?.sellingPrice || 0)}
           </span>
         </Typography>
       </div>

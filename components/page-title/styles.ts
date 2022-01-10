@@ -18,6 +18,8 @@ const useStyles = makeStyles(() => ({
     [theme.breakpoints.down(769)]: {
       width: "100%",
     },
+    padding: "1rem",
+    textAlign: "center",
   },
 }));
 

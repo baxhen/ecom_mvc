@@ -45,6 +45,10 @@ export const CartReducer = undoable(
 
         return draft;
       }
+      case ActionTypes.resetCart: {
+        draft.products = [];
+        return draft;
+      }
 
       default:
         return draft;

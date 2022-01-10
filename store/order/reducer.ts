@@ -17,6 +17,10 @@ export const OrderReducer = produce(
         draft.order = action.payload;
         return draft;
       }
+      case ActionTypes.resetOrder: {
+        draft.order = initialState.order;
+        return draft;
+      }
 
       default:
         return draft;

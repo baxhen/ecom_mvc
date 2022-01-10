@@ -14,6 +14,13 @@ export const OfferReducer = produce(
       }
 
       case ActionTypes.addOffer: {
+        const index = draft.offers.findIndex((o) => o.id === action.payload.id);
+
+        if (index !== -1) {
+          draft.offers[index] = action.payload;
+          return draft;
+        }
+
         draft.offers.push(action.payload);
         return draft;
       }

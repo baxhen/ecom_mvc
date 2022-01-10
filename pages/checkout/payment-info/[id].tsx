@@ -26,6 +26,8 @@ import { IPaymentMethod, useSavePaymentMethod } from "../../../hooks";
 import { orderIdSelector } from "../../../store/order";
 import SelectInput from "../../../components/inputs/select-input";
 import { moneyParser } from "../../../utils";
+import { resetCart } from "../../../store/cart/actions/reset-cart";
+import { resetOrder } from "../../../store/order/actions/reset-order";
 
 interface Props {
   amount?: number;
@@ -34,7 +36,7 @@ interface Props {
 
 interface CardForm {
   number: string;
-  cvv: string;
+  cvc: string;
   expiry: string;
   name: string;
   installment: string;
@@ -56,22 +58,22 @@ const PaymentInfo: NextPage<Props> = ({ amount, installments }) => {
       number: "",
       name: "",
       expiry: "",
-      cvv: "",
+      cvc: "",
       installment: "",
       brand: "",
     },
   });
 
   const number = watch("number");
-  const cvv = watch("cvv");
+  const cvc = watch("cvc");
   const name = watch("name");
   const expiry = watch("expiry");
 
   const onSubmit = async (data: CardForm) => {
     const payload: IPaymentMethod = {
       creditCard: {
-        brand: data.brand.toUpperCase(),
-        cvv: +data.cvv,
+        brand: data.brand,
+        cvv: +data.cvc,
         exp_month: +data.expiry.slice(0, 2),
         exp_year: +data.expiry.slice(2, 6),
         holder: data.name,
@@ -85,7 +87,7 @@ const PaymentInfo: NextPage<Props> = ({ amount, installments }) => {
     const resp = await savePayment(payload);
 
     if (resp.success) {
-      router.push(`/checkout/confirmation/${orderId}`);
+      router.push(`/checkout/feedback/${orderId}`);
     }
   };
 
@@ -110,7 +112,7 @@ const PaymentInfo: NextPage<Props> = ({ amount, installments }) => {
         justifyContent="center"
       >
         <Cards
-          cvc={cvv}
+          cvc={cvc}
           expiry={expiry}
           focused={focused}
           name={name}
@@ -157,7 +159,7 @@ const PaymentInfo: NextPage<Props> = ({ amount, installments }) => {
           <Grid xs={12} item>
             <TextField
               label="CVV"
-              {...register("cvv")}
+              {...register("cvc")}
               onFocus={handleInputFocus}
             />
           </Grid>
@@ -220,6 +222,8 @@ _PaymentInfo.getInitialProps = async (context: NextPageContext) => {
     const { data } = await client.get<IOrder>(`/orders/detail/${id}`);
 
     const amount = data.data.orders.totalAmount;
+
+    console.log({ amount });
 
     const response = await client.get<IInstallmentsAPI>(
       `https://payment.carrin.io/payment/api/v1/checkout/simulate`,
