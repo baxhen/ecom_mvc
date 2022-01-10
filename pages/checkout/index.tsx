@@ -78,9 +78,6 @@ const Checkout: NextPage = () => {
       setOpen(true);
     }
   }, [isError, error]);
-  React.useEffect(() => {
-    console.log(sameBillingAddress);
-  }, [sameBillingAddress]);
 
   return (
     <Box

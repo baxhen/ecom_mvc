@@ -223,8 +223,6 @@ _PaymentInfo.getInitialProps = async (context: NextPageContext) => {
 
     const amount = data.data.orders.totalAmount;
 
-    console.log({ amount });
-
     const response = await client.get<IInstallmentsAPI>(
       `https://payment.carrin.io/payment/api/v1/checkout/simulate`,
       { params: { amount } }
