@@ -191,6 +191,7 @@ const Confirmation: NextPage<Props> = ({ order }) => {
           {products.map((product) => {
             return (
               <Box
+                key={product.id}
                 display="flex"
                 alignItems="center"
                 justifyContent="space-between"
