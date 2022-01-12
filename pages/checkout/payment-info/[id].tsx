@@ -20,6 +20,7 @@ import { useAppDispatch, useAppSelector } from "../../../store";
 import withHeaderSpacing from "../../../hoc/with-header-spacing";
 import PageTitle from "../../../components/page-title";
 import { IInstallmentsAPI, IOrder } from "../../../types";
+import ModalAlert from "../../../components/modal/modal-alert";
 import { client } from "../../../api";
 import { useRouter } from "next/router";
 import { IPaymentMethod, useSavePaymentMethod } from "../../../hooks";
@@ -50,8 +51,9 @@ const PaymentInfo: NextPage<Props> = ({ amount, installments }) => {
   const orderId = useAppSelector(orderIdSelector);
 
   const [focused, setFocused] = React.useState<Focused>();
+  const [open, setOpen] = useState(false);
 
-  const { mutateAsync: savePayment, isLoading } = useSavePaymentMethod();
+  const { mutateAsync: savePayment, isLoading, error } = useSavePaymentMethod();
 
   const { register, watch, handleSubmit, setValue } = useForm<CardForm>({
     defaultValues: {
@@ -87,6 +89,8 @@ const PaymentInfo: NextPage<Props> = ({ amount, installments }) => {
     const resp = await savePayment(payload);
 
     if (resp.success) {
+      dispatch(resetCart());
+      dispatch(resetOrder());
       router.push(`/checkout/feedback/${orderId}`);
     }
   };
@@ -199,7 +203,15 @@ const PaymentInfo: NextPage<Props> = ({ amount, installments }) => {
           </Grid>
         </Grid>
       </Grid>
-
+      <ModalAlert
+        open={open}
+        setOpen={setOpen}
+        message={
+          (error as any)?.response?.data?.message ||
+          "Não foi possível criar a ordem"
+        }
+        severity="error"
+      />
       <Backdrop
         sx={{
           color: (theme) => theme.palette.common.white,
@@ -221,14 +233,15 @@ _PaymentInfo.getInitialProps = async (context: NextPageContext) => {
   try {
     const { data } = await client.get<IOrder>(`/orders/detail/${id}`);
 
-    const amount = data.data.orders.totalAmount;
+    const amount = data.totalAmount;
 
     const response = await client.get<IInstallmentsAPI>(
       `https://payment.carrin.io/payment/api/v1/checkout/simulate`,
       { params: { amount } }
     );
+    const installments = response.data.data.creditcard.installments;
 
-    return { amount, installments: response.data.data.creditcard.installments };
+    return { amount, installments };
   } catch (error) {
     console.error(error);
   }

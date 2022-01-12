@@ -31,11 +31,10 @@ const Checkout: NextPage = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
 
+  const [open, setOpen] = useState(false);
   const productItems = useAppSelector(
     cartProductsItemsWithSkuAndQuantitySelector
   );
-
-  const [open, setOpen] = useState(false);
 
   const { register, watch, handleSubmit, getValues } = useForm<any>({
     defaultValues: { user: { sameBillingAddress: true } },

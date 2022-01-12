@@ -29,7 +29,7 @@ import { client } from "../../../api";
 import { useRouter } from "next/router";
 import { IPaymentMethod, useSavePaymentMethod } from "../../../hooks";
 import { orderIdSelector } from "../../../store/order";
-import SelectInput from "../../../components/inputs/select-input";
+
 import { moneyParser } from "../../../utils";
 import theme from "../../../styles/theme";
 import { resetCart } from "../../../store/cart/actions/reset-cart";
@@ -37,30 +37,18 @@ import { resetOrder } from "../../../store/order/actions/reset-order";
 import { offersSelector } from "../../../store/offer";
 
 interface Props {
-  order?: IOrder["data"]["orders"];
+  order?: IOrder;
 }
 
 const Confirmation: NextPage<Props> = ({ order }) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
 
-  const products = useAppSelector(cartProductsSelector);
   const offers = useAppSelector(offersSelector);
 
-  const date = DateTime.fromISO(order?.updatedAt || "")
-    .setLocale("pt-br")
-    .toFormat("DDD");
-
-  React.useEffect(() => {
-    if (!products.length) {
-      router.push(`/offer/${offers[0].id}`);
-    }
-
-    return () => {
-      dispatch(resetCart());
-      dispatch(resetOrder());
-    };
-  }, []);
+  // const date = DateTime.fromISO(order?. || "")
+  //   .setLocale("pt-br")
+  //   .toFormat("DDD");
 
   return (
     <Box
@@ -113,7 +101,7 @@ const Confirmation: NextPage<Props> = ({ order }) => {
             {order?.transactionId}
           </Typography>
         </Box>
-        <Box
+        {/* <Box
           display="flex"
           flexDirection="column"
           alignItems="center"
@@ -125,7 +113,7 @@ const Confirmation: NextPage<Props> = ({ order }) => {
           <Typography variant="subtitle2" fontWeight={600}>
             {date}
           </Typography>
-        </Box>
+        </Box> */}
         <Box
           display="flex"
           flexDirection="column"
@@ -188,16 +176,17 @@ const Confirmation: NextPage<Props> = ({ order }) => {
           paddingBottom="1rem"
           borderBottom={`1px solid ${theme.palette.primary.main}`}
         >
-          {products.map((product) => {
+          {order?.orderDetails.map((product) => {
             return (
               <Box
-                key={product.id}
+                key={product.skuCode}
                 display="flex"
                 alignItems="center"
                 justifyContent="space-between"
+                width="100%"
               >
                 <Typography style={{ width: "50%" }} variant="body1">
-                  {product.name} x {product.quantity}
+                  {product.productName} x {product.quantity}
                 </Typography>
                 <Typography
                   sx={{
@@ -205,7 +194,7 @@ const Confirmation: NextPage<Props> = ({ order }) => {
                   }}
                   variant="body1"
                 >
-                  {moneyParser.format(product.salePrice * product.quantity)}
+                  {moneyParser.format(product.price * product.quantity)}
                 </Typography>
               </Box>
             );
@@ -308,7 +297,7 @@ _Confirmation.getInitialProps = async (context: NextPageContext) => {
   try {
     const { data } = await client.get<IOrder>(`/orders/detail/${id}`);
 
-    const order = data.data.orders;
+    const order = data;
 
     return { order };
   } catch (error) {
