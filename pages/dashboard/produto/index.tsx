@@ -12,6 +12,8 @@ import PageTitle from "./../../../components/page-title";
 import withHeaderSpacing from "../../../hoc/with-header-spacing";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import SelectInput from "../../../components/inputs/select-input";
+import { useCreateProduct } from "../../../hooks";
+import { Backdrop, CircularProgress } from "@mui/material";
 
 interface Props {}
 
@@ -30,18 +32,39 @@ const Product: NextPage<Props> = () => {
     control,
   });
 
+  const { mutateAsync: createProduct, isLoading } = useCreateProduct();
+
   const variations = watch("variations");
 
   const [vars, setVars] = React.useState([]);
 
-  const onSubmit = (data: any) => {
+  const onSubmit = async (data: any) => {
+    const numberFields = ["weight", "length", "width", "height"];
+
     Object.entries(data).forEach(([key, value]) => {
       if (!value) {
         delete data[key];
       }
     });
-    console.log({ data });
-    console.log({ data: JSON.stringify(data) });
+
+    data.combinations = data.combinations.map((c: any) => ({
+      ...c,
+      quantity: Number(c.quantity.replaceAll(",", ".")),
+      price: Number(c.price.replaceAll(",", ".")),
+    }));
+
+    numberFields.forEach((key) => {
+      if (data[key]) {
+        data[key] = Number(data[key]);
+      }
+    });
+
+    data.companyId = 1;
+    data.price = 0;
+
+    const resp = await createProduct(data);
+
+    console.log({ resp });
   };
 
   const onBlur = () => {
@@ -68,12 +91,27 @@ const Product: NextPage<Props> = () => {
           <TextField label="Nome do produto" {...register("name")} />
         </Grid>
         <Grid xs={12} item>
+          <TextField label="Url foto do produto" {...register("img")} />
+        </Grid>
+        <Grid xs={12} item>
           <TextField
             label="Descrição"
             multiline
             rows={4}
             {...register("description")}
           />
+        </Grid>
+        <Grid xs={12} item>
+          <TextField label="Peso (gramas)" {...register("weight")} />
+        </Grid>
+        <Grid xs={12} item>
+          <TextField label="Comprimento (cm)" {...register("length")} />
+        </Grid>
+        <Grid xs={12} item>
+          <TextField label="Largura (cm)" {...register("width")} />
+        </Grid>
+        <Grid xs={12} item>
+          <TextField label="Altura (cm)" {...register("height")} />
         </Grid>
 
         <Grid container flexDirection="column" spacing={3} xs={12} item>
@@ -115,8 +153,6 @@ const Product: NextPage<Props> = () => {
                     sku: "",
                     quantity: "",
                     price: "",
-                    cor: "",
-                    tamanho: "",
                   })
                 }
               >
@@ -161,24 +197,7 @@ const Product: NextPage<Props> = () => {
                     </Grid>
                   );
                 })}
-                {/* <Grid item>
-                  <Controller
-                    render={({ field }) => (
-                      <TextField {...field} label={"Tamanho"} />
-                    )}
-                    name={`combinations.${index}.tamanho`}
-                    control={control}
-                  />
-                </Grid>
-                <Grid item>
-                  <Controller
-                    render={({ field }) => (
-                      <TextField {...field} label={"Cor"} />
-                    )}
-                    name={`combinations.${index}.cor`}
-                    control={control}
-                  />
-                </Grid> */}
+
                 <Grid item>
                   <Controller
                     render={({ field }) => (
@@ -188,6 +207,7 @@ const Product: NextPage<Props> = () => {
                     control={control}
                   />
                 </Grid>
+
                 <Grid item>
                   <Controller
                     render={({ field }) => (
@@ -218,6 +238,15 @@ const Product: NextPage<Props> = () => {
           </Button>
         </Grid>
       </Grid>
+      <Backdrop
+        sx={{
+          color: (theme) => theme.palette.common.white,
+          zIndex: (theme) => theme.zIndex.drawer + 1,
+        }}
+        open={isLoading}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </Box>
   );
 };

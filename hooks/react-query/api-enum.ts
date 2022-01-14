@@ -7,4 +7,5 @@ export enum MutationKeys {
   createOrder = "createOrder",
   checkAntiFraudAnswers = "checkAntiFraudAnswers",
   savePaymentMethod = "savePaymentMethod",
+  createProduct = "createProduct",
 }
