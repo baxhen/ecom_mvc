@@ -10,6 +10,7 @@ import { IOffer } from "../../types";
 import { client } from "../../api";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { addOffer, offersSelector } from "../../store/offer";
+import Carrousel from "../../components/carrousel";
 
 interface Props {
   offer?: IOffer;
@@ -22,6 +23,37 @@ const Offer: NextPage<Props> = ({ offer, id }) => {
   const offers = useAppSelector(offersSelector);
 
   const [_offer, setOffer] = React.useState(offer);
+
+  const ofertas = [
+    { src: "https://unsplash.it/1600/400?image=950", title: "Oferta 1" },
+    { src: "https://unsplash.it/1600/400?image=930", title: "Oferta 2" },
+    { src: "https://unsplash.it/1600/400?image=990", title: "Oferta 3" },
+    { src: "https://unsplash.it/1600/400?image=980", title: "Oferta 4" },
+    { src: "https://unsplash.it/1600/400?image=970", title: "Oferta 5" },
+    { src: "https://unsplash.it/1600/400?image=976", title: "Oferta 6" },
+    { src: "https://unsplash.it/1600/400?image=993", title: "Oferta 7" },
+    { src: "https://unsplash.it/1600/400?image=969", title: "Oferta 8" },
+  ];
+  const blocos = [
+    { src: "https://unsplash.it/1600/400?image=950", title: "Bloco 1" },
+    { src: "https://unsplash.it/1600/400?image=930", title: "Bloco 2" },
+    { src: "https://unsplash.it/1600/400?image=990", title: "Bloco 3" },
+    { src: "https://unsplash.it/1600/400?image=980", title: "Bloco 4" },
+    { src: "https://unsplash.it/1600/400?image=970", title: "Bloco 5" },
+    { src: "https://unsplash.it/1600/400?image=976", title: "Bloco 6" },
+    { src: "https://unsplash.it/1600/400?image=993", title: "Bloco 7" },
+    { src: "https://unsplash.it/1600/400?image=969", title: "Bloco 8" },
+  ];
+  const lojas = [
+    { src: "https://unsplash.it/1600/400?image=950", title: "Loja 1" },
+    { src: "https://unsplash.it/1600/400?image=930", title: "Loja 2" },
+    { src: "https://unsplash.it/1600/400?image=990", title: "Loja 3" },
+    { src: "https://unsplash.it/1600/400?image=980", title: "Loja 4" },
+    { src: "https://unsplash.it/1600/400?image=970", title: "Loja 5" },
+    { src: "https://unsplash.it/1600/400?image=976", title: "Loja 6" },
+    { src: "https://unsplash.it/1600/400?image=993", title: "Loja 7" },
+    { src: "https://unsplash.it/1600/400?image=969", title: "Loja 8" },
+  ];
 
   React.useEffect(() => {
     if (offer) {
@@ -39,7 +71,7 @@ const Offer: NextPage<Props> = ({ offer, id }) => {
     }
   }, []);
   return (
-    <Box display="flex" flexDirection="column" alignItems="center">
+    <Box display="flex" flexDirection="column" alignItems="center" gap="1rem">
       <Box
         display="flex"
         flexDirection="column"
@@ -53,6 +85,10 @@ const Offer: NextPage<Props> = ({ offer, id }) => {
           );
         })}
       </Box>
+
+      <Carrousel items={ofertas} slideInterval={1500} />
+      <Carrousel items={blocos} slideInterval={1000} />
+      <Carrousel items={lojas} slideInterval={2000} />
     </Box>
   );
 };
