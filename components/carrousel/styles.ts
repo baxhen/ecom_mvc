@@ -14,6 +14,7 @@ const useStyles = makeStyles(() => ({
     scrollSnapType: "x mandatory",
     "-webkit-overflow-scrolling": "touch",
     scrollBehavior: "smooth",
+    border: `1px solid ${theme.palette.primary.main}`,
   },
   cls_carrousel__items__item: {
     flex: "none",
@@ -24,11 +25,10 @@ const useStyles = makeStyles(() => ({
 
     scrollSnapAlign: "start",
 
-    "& img": {
-      width: "100%",
-      height: "100%",
-      objectFit: "cover",
-    },
+    display: "flex",
+    padding: "1rem",
+    flexDirection: "column",
+    alignItems: "center",
   },
 }));
 

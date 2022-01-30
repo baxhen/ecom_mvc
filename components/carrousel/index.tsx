@@ -4,18 +4,19 @@ import { useRouter } from "next/router";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { withTheme, WithTheme as WithThemeProps } from "@mui/styles";
-import { Theme } from "@mui/material";
+import { Button, Theme } from "@mui/material";
 
 import useStyles from "./styles";
 
 interface Props extends WithThemeProps<Theme> {
   items: any[];
   slideInterval?: number;
+  onClick?: (id: number) => void;
 }
 
 const defaultProps: Partial<Props> = { slideInterval: 7000 };
 
-const Carrousel: React.FC<Props> = ({ slideInterval, items }) => {
+const Carrousel: React.FC<Props> = ({ slideInterval, items, onClick }) => {
   const router = useRouter();
   const { cls_carrousel, cls_carrousel__items, cls_carrousel__items__item } =
     useStyles();
@@ -64,19 +65,23 @@ const Carrousel: React.FC<Props> = ({ slideInterval, items }) => {
       <div ref={itemsRef} className={cls_carrousel__items}>
         {items.map((item, i) => {
           return (
-            <div className={cls_carrousel__items__item} key={i}>
-              <img src={item.src} />
-              <Box
-                position="absolute"
-                top={0}
-                height="100%"
-                width="100%"
-                display="flex"
-                justifyContent="center"
-                p="1rem"
+            <div className={cls_carrousel__items__item} key={item.id}>
+              <Typography variant="h3" sx={{ color: "primary.main" }}>
+                {item.name}
+              </Typography>
+              <Typography variant="body1" sx={{ color: "primary.main" }}>
+                {item.description}
+              </Typography>
+
+              <Button
+                variant="contained"
+                sx={{ mt: "auto", width: "100%" }}
+                onClick={() => {
+                  if (onClick) onClick(item.id);
+                }}
               >
-                <Typography variant="h3">{item.title}</Typography>
-              </Box>
+                Conferir Produtos
+              </Button>
             </div>
           );
         })}
