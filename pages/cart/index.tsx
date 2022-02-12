@@ -6,8 +6,8 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 
 import withHeaderSpacing from "../../hoc/with-header-spacing";
-import ProductsTable from "../../components/products-table";
-import CartTotal from "../../components/cart-total";
+import ProductsTable from "../../containers/products-table";
+import CartTotal from "../../containers/cart-total";
 import {
   cartHasProductsSelector,
   cartProductsSelector,

@@ -18,7 +18,7 @@ interface Props {
   id?: string;
 }
 
-const Offer: NextPage<Props> = ({ offer, id }) => {
+const Block: NextPage<Props> = ({ offer, id }) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
 
@@ -143,9 +143,9 @@ const Offer: NextPage<Props> = ({ offer, id }) => {
   );
 };
 
-const _Offer: NextPage<Props> = withHeaderSpacing(Offer);
+const _Block: NextPage<Props> = withHeaderSpacing(Block);
 
-_Offer.getInitialProps = async (context: NextPageContext) => {
+_Block.getInitialProps = async (context: NextPageContext) => {
   const { id } = context.query;
 
   try {
@@ -165,4 +165,4 @@ _Offer.getInitialProps = async (context: NextPageContext) => {
   return { id };
 };
 
-export default _Offer;
+export default _Block;

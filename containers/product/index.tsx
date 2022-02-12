@@ -10,8 +10,8 @@ import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 
 import useStyles from "./styles";
-import IntInputWithControls from "../inputs/int-input-with-controls";
-import SelectInput from "../inputs/select-input";
+import IntInputWithControls from "../int-input-with-controls";
+import SelectInput from "../../components/select-input";
 import { moneyParser } from "../../utils";
 import { addCartProduct, useAppDispatch } from "../../store";
 import ModalAddProduct from "../modal/modal-add-product";

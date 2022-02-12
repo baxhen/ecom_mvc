@@ -11,7 +11,7 @@ import IconButton from "@mui/material/IconButton";
 import ClearIcon from "@mui/icons-material/Clear";
 
 import useStyles from "./styles";
-import IntInputWithControls from "../../inputs/int-input-with-controls";
+import IntInputWithControls from "../../int-input-with-controls";
 import { moneyParser } from "../../../utils";
 import {
   deleteCartProduct,

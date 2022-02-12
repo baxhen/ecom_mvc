@@ -11,7 +11,7 @@ import Button from "@mui/material/Button";
 import PageTitle from "./../../../components/page-title";
 import withHeaderSpacing from "../../../hoc/with-header-spacing";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
-import SelectInput from "../../../components/inputs/select-input";
+import SelectInput from "../../../components/select-input";
 import { useCreateProduct } from "../../../hooks";
 import { Backdrop, CircularProgress } from "@mui/material";
 

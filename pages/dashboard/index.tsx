@@ -1,13 +1,13 @@
 import React from "react";
 import type { NextPage } from "next";
+import { compose } from "redux";
 
-import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 
 import withHeaderSpacing from "../../hoc/with-header-spacing";
-import Product from "../../containers/product";
+import withAuth from "../../hoc/with-auth";
 
-const OrderTracking: NextPage = () => {
+const Dashboard: NextPage = () => {
   return (
     <Box display="flex" flexDirection="column" alignItems="center">
       <Box
@@ -23,4 +23,4 @@ const OrderTracking: NextPage = () => {
   );
 };
 
-export default withHeaderSpacing(OrderTracking);
+export default compose(withHeaderSpacing, withAuth)(Dashboard);

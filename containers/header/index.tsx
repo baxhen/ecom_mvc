@@ -1,11 +1,15 @@
 import React from "react";
+import { useRouter } from "next/router";
+import { useKeycloak } from "@react-keycloak/ssr";
+import type { KeycloakInstance, KeycloakTokenParsed } from "keycloak-js";
+
+import { withTheme, WithTheme as WithThemeProps } from "@mui/styles";
+import { Theme } from "@mui/material";
+
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
-import { useRouter } from "next/router";
 import Typography from "@mui/material/Typography";
-import { withTheme, WithTheme as WithThemeProps } from "@mui/styles";
-import { Theme } from "@mui/material";
 
 import useStyles from "./styles";
 import Cart from "../cart";
@@ -14,6 +18,7 @@ interface Props extends WithThemeProps<Theme> {}
 
 const Header: React.FC<Props> = () => {
   const router = useRouter();
+  const { keycloak } = useKeycloak<KeycloakInstance>();
   const { cls_header, cls_header__logo } = useStyles();
 
   return (
@@ -26,6 +31,13 @@ const Header: React.FC<Props> = () => {
             onClick={() => router.push("/")}
           >
             Brasil Shop
+          </Typography>
+          <Typography
+            style={{ marginLeft: "auto" }}
+            variant="h6"
+            onClick={() => keycloak?.logout()}
+          >
+            Sair
           </Typography>
           <Cart />
         </Toolbar>

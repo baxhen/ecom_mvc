@@ -23,7 +23,7 @@ import {
   useAppSelector,
 } from "../../store";
 import PageTitle from "../../components/page-title";
-import ModalAlert from "../../components/modal/modal-alert";
+import ModalAlert from "../../containers/modal/modal-alert";
 import { useCreateOrder } from "../../hooks";
 import { addOrder } from "../../store/order";
 

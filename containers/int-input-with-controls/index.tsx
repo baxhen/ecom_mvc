@@ -3,7 +3,7 @@ import React from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 
-import TextInput from "../text-input";
+import TextInput from "../../components/text-input";
 import { Typography } from "@mui/material";
 
 interface Props {
