@@ -7,6 +7,7 @@ import {
 import { AnyAction } from "redux";
 import { ResetCartAction } from "./cart/actions/reset-cart";
 import { ResetOrderAction } from "./order/actions/reset-order";
+import { UpdateHeaderVisibilityAction } from "./ui";
 
 interface HydrateAction {
   type: typeof HYDRATE;
@@ -21,12 +22,14 @@ export enum ActionTypes {
   addOffer = "addOffer",
   addOrder = "addOrder",
   resetOrder = "resetOrder",
+  updateHeaderVisibility = "updateHeaderVisibility",
   resetCart = "resetCart",
 }
 
 export type Action =
   // | ResetOrderAction
   // | ResetCartAction
+  | UpdateHeaderVisibilityAction
   | DeleteCartProductAction
   | AddCartProductAction
   | EditCartProductQuantityAction

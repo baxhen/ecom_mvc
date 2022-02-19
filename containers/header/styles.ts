@@ -6,8 +6,9 @@ const useStyles = makeStyles(() => ({
   ...fadeInFromTop,
   cls_header: {
     display: "flex",
+    gap: "1rem",
     backgroundImage: `linear-gradient(to right, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
-    "& > div:nth-of-type(1)": {
+    "& > h5:nth-of-type(2)": {
       marginLeft: "auto",
     },
     "& > *": { animation: `$fadeInFromTop 1s` },

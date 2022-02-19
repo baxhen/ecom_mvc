@@ -10,8 +10,10 @@ import { SSRKeycloakProvider, SSRCookies } from "@react-keycloak/ssr";
 
 import Header from "../containers/header";
 import theme from "../styles/theme";
-import { persistor, storeWrapper } from "../store";
+import { persistor, storeWrapper, useAppSelector } from "../store";
 import { Hydrate, QueryClient, QueryClientProvider } from "react-query";
+import { showHeaderSelector } from "../store/ui";
+import Menu from "../containers/menu";
 
 const keycloakCfg = {
   url: "https://auth.carrin.io/auth",
@@ -25,6 +27,9 @@ interface InitialProps {
 
 function MyApp({ Component, pageProps, cookies }: AppProps & InitialProps) {
   const [queryClient] = React.useState(() => new QueryClient());
+
+  const showHeader = useAppSelector(showHeaderSelector);
+
   React.useEffect(() => {
     const jssStyles = document.querySelector("#jss-server-side");
     if (jssStyles && jssStyles.parentElement) {
@@ -48,7 +53,7 @@ function MyApp({ Component, pageProps, cookies }: AppProps & InitialProps) {
             <PersistGate loading={null} persistor={persistor}>
               <ThemeProvider theme={theme}>
                 <CssBaseline />
-                <Header />
+                {showHeader ? <Header /> : <Menu />}
                 <Component {...pageProps} />
               </ThemeProvider>
             </PersistGate>

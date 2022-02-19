@@ -14,10 +14,13 @@ import { Controller, useFieldArray, useForm } from "react-hook-form";
 import SelectInput from "../../../components/select-input";
 import { useCreateProduct } from "../../../hooks";
 import { Backdrop, CircularProgress } from "@mui/material";
+import { compose } from "redux";
+import withMenuSpacing from "../../../hoc/with-menu-spacing";
+import withAuth from "../../../hoc/with-auth";
 
 interface Props {}
 
-const Product: NextPage<Props> = () => {
+const _Product: NextPage<Props> = () => {
   const { register, handleSubmit, control, watch } = useForm();
   const {
     fields: fieldsVariations,
@@ -77,6 +80,8 @@ const Product: NextPage<Props> = () => {
       alignItems="center"
       p="2rem"
       gap="2rem"
+      height="100vh"
+      sx={{ overflow: "auto" }}
     >
       <PageTitle title="Adicionar produto" />
 
@@ -251,6 +256,9 @@ const Product: NextPage<Props> = () => {
   );
 };
 
-const _Product: NextPage<Props> = withHeaderSpacing(Product);
+const Product: NextPage<Props> = compose(
+  withMenuSpacing,
+  withAuth
+)(_Product) as any;
 
-export default _Product;
+export default Product;

@@ -33,11 +33,15 @@ const Header: React.FC<Props> = () => {
             Brasil Shop
           </Typography>
           <Typography
-            style={{ marginLeft: "auto" }}
+            style={{ marginLeft: "auto", cursor: "pointer" }}
             variant="h6"
-            onClick={() => keycloak?.logout()}
+            onClick={() =>
+              keycloak?.login({
+                redirectUri: `${window.location.origin}/dashboard`,
+              })
+            }
           >
-            Sair
+            Login
           </Typography>
           <Cart />
         </Toolbar>

@@ -4,23 +4,21 @@ import { compose } from "redux";
 
 import Box from "@mui/material/Box";
 
-import withHeaderSpacing from "../../hoc/with-header-spacing";
+import withMenuSpacing from "../../hoc/with-menu-spacing";
 import withAuth from "../../hoc/with-auth";
 
 const Dashboard: NextPage = () => {
   return (
-    <Box display="flex" flexDirection="column" alignItems="center">
-      <Box
-        display="flex"
-        flexDirection="column"
-        alignItems="center"
-        gap="1rem"
-        pt="1rem"
-      >
-        Acompanhamento de pedido
-      </Box>
+    <Box
+      display="flex"
+      width="100%"
+      height="100vh"
+      alignItems="center"
+      justifyContent="center"
+    >
+      Nosso Time Ninja está desenvolvendo essa tela
     </Box>
   );
 };
 
-export default compose(withHeaderSpacing, withAuth)(Dashboard);
+export default compose(withMenuSpacing, withAuth)(Dashboard);
