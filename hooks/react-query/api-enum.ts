@@ -1,6 +1,7 @@
 export enum QueryKeys {
   getShippingPricePerProduct = "getShippingPricePerProduct",
   getAntiFraudAnswers = "getAntiFraudAnswers",
+  getProductsPaginated = "getProductsPaginated",
 }
 
 export enum MutationKeys {

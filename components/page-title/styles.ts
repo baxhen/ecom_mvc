@@ -21,6 +21,12 @@ const useStyles = makeStyles(() => ({
     padding: "1rem",
     textAlign: "center",
   },
+  ["cls_page_title--dashboard"]: {
+    background: "transparent",
+    justifyContent: "start",
+    paddingLeft: "0",
+    width: "100%",
+  },
 }));
 
 export default useStyles;

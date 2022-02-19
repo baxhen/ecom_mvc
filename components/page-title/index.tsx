@@ -5,6 +5,7 @@ import { withTheme, WithTheme as WithThemeProps } from "@mui/styles";
 import { Theme } from "@mui/material";
 
 import useStyles from "./styles";
+import clsx from "clsx";
 
 interface Props extends WithThemeProps<Theme> {
   title: string;
@@ -24,13 +25,23 @@ interface Props extends WithThemeProps<Theme> {
     | "overline"
     | "inherit"
     | undefined;
+
+  type?: "dashboard" | "page";
 }
 
-const PageTitle: React.FC<Props> = ({ theme, title, variant = "h4" }) => {
-  const { cls_page_title } = useStyles();
+const PageTitle: React.FC<Props> = ({
+  title,
+  variant = "h4",
+  type = "page",
+}) => {
+  const { cls_page_title, ...classes } = useStyles();
 
   return (
-    <div className={cls_page_title}>
+    <div
+      className={clsx(cls_page_title, {
+        [classes["cls_page_title--dashboard"]]: type === "dashboard",
+      })}
+    >
       <Typography variant={variant}>{title}</Typography>
     </div>
   );
