@@ -10,15 +10,29 @@ import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import { Backdrop, CircularProgress } from "@mui/material";
 
-import PageTitle from "./../../../../components/page-title";
-import withHeaderSpacing from "../../../../hoc/with-header-spacing";
-import { useCreateProduct } from "../../../../hooks";
-import withMenuSpacing from "../../../../hoc/with-menu-spacing";
-import withAuth from "../../../../hoc/with-auth";
+import PageTitle from "../../../components/page-title";
+import withHeaderSpacing from "../../../hoc/with-header-spacing";
+import { useCreateProduct } from "../../../hooks";
+import withMenuSpacing from "../../../hoc/with-menu-spacing";
+import withAuth from "../../../hoc/with-auth";
+import { useKeycloak } from "@react-keycloak/ssr";
+import type { KeycloakInstance } from "keycloak-js";
+import { ParsedToken } from "../../../types";
+import { useRouter } from "next/router";
 
 interface Props {}
 
 const _ProductAdd: NextPage<Props> = () => {
+  const router = useRouter();
+
+  const { id } = router.query;
+
+  console.log({ id });
+
+  const { keycloak } = useKeycloak<KeycloakInstance>();
+
+  const parsedToken: ParsedToken | undefined = keycloak?.tokenParsed;
+
   const { register, handleSubmit, control, watch } = useForm();
   const {
     fields: fieldsVariations,
@@ -63,7 +77,10 @@ const _ProductAdd: NextPage<Props> = () => {
     data.companyId = 1;
     data.price = 0;
 
-    const resp = await createProduct(data);
+    const resp = await createProduct({
+      params: data,
+      instance: parsedToken?.instance || "",
+    });
 
     console.log({ resp });
   };
@@ -81,7 +98,7 @@ const _ProductAdd: NextPage<Props> = () => {
       height="100vh"
       sx={{ overflow: "auto" }}
     >
-      <PageTitle title="Adicionar produto" />
+      <PageTitle title={`${id ? "Editar" : "Adicionar"} produto`} />
 
       <Grid
         container

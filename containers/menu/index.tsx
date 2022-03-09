@@ -34,7 +34,7 @@ const _Menu: React.FC<Props> = () => {
     {
       label: "Produtos",
       Icon: ArtTrackIcon,
-      onClick: () => router.push("/dashboard/produto"),
+      onClick: () => router.push("/dashboard/product"),
     },
     { label: "SKUs", Icon: Inventory2Icon, onClick: () => {} },
     { label: "Ofertas", Icon: LocalOfferIcon, onClick: () => {} },
